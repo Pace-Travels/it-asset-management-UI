@@ -1,0 +1,82 @@
+<app-page-header title="Asset Information Category" buttonText="Add Asset Information Category" (buttonClick)="addAsset()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchAsset($event)" (add)="addAsset()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Asset Information Category Name</th>
+
+                <th>Asset Information Category Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(asset of tableData; track asset.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{asset.name}}</td>
+
+                <td>{{asset.description}}</td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editAssetStatus(asset.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(asset)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Asset Information Category'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedAsset?.name"
+    [itemCode]="selectedAsset?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteAsset()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>
