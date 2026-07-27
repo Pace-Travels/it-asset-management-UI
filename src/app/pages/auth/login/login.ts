@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -32,14 +33,15 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
   ) {
 
     this.loginForm = this.fb.group({
 
-      email: ['', Validators.required],
+      email: ['', [Validators.required]],
 
-      password: ['', Validators.required]
+      password: ['', [Validators.required]]
 
     });
 
@@ -53,7 +55,6 @@ export class LoginComponent {
 
   onSubmit(): void {
 
-
     if (this.loginForm.invalid) {
 
       this.loginForm.markAllAsTouched();
@@ -66,45 +67,79 @@ export class LoginComponent {
 
     this.errorMessage = '';
 
+    const payload = {
 
-    const email = this.loginForm.value.email;
+      email: this.loginForm.value.email,
 
-    const password = this.loginForm.value.password;
+      password: this.loginForm.value.password
 
-    this.authService.login(email, password)
-      .subscribe({
+    };
 
-        next: (response) => {
+    this.authService.login(
 
-          this.isLoading = false;
+      payload.email,
 
-          if (response.success) {
+      payload.password
 
-            console.log('Login Success', response);
+    ).subscribe({
 
-            // token already saved from AuthService
-            this.router.navigate(['/dashboard']);
+      next: (response) => {
 
-          }
-          else {
+        this.isLoading = false;
 
-            this.errorMessage = response.message;
+        if (response.success) {
 
-          }
+          this.messageService.add({
 
-        },
+            severity: 'success',
 
-        error: (error) => {
+            summary: 'Success',
 
-          this.isLoading = false;
+            detail: response.message
 
-          this.errorMessage = 'Something went wrong';
+          });
 
-          console.log(error);
+          this.router.navigate(['/dashboard']);
 
         }
 
-      });
+        else {
+
+          this.errorMessage = response.message;
+
+          this.messageService.add({
+
+            severity: 'error',
+
+            summary: 'Login Failed',
+
+            detail: response.message
+
+          });
+
+        }
+
+      },
+
+      error: (error) => {
+
+        this.isLoading = false;
+
+        this.errorMessage = error?.error?.message || 'Login Failed';
+
+        this.messageService.add({
+
+          severity: 'error',
+
+          summary: 'Error',
+
+          detail: this.errorMessage
+
+        });
+
+      }
+
+    });
 
   }
 }

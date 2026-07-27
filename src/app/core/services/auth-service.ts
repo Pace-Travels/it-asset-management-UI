@@ -1,119 +1,196 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { StorageService } from './storage.service.ts';
+import { HttpClient } from '@angular/common/http';
+import { env } from '../config/env.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly TOKEN_KEY = 'token';
-
-  private readonly DEMO_TOKEN = 'demo-token-123456';
-
-
   constructor() { }
 
+  private readonly http = inject(HttpClient);
 
-  login(username: string, password: string): Observable<any> {
+  private readonly baseUrl = `${env.API_BASE_URL}`;
+
+  private readonly storageService = inject(StorageService);
+
+  private currentUserSubject = new BehaviorSubject<any>(
+    this.storageService.getUser()
+  );
+
+  currentUser$ = this.currentUserSubject.asObservable();
+
+  login(email: string, password: string): Observable<any> {
+
+    return this.http.post<any>(
+
+      `${this.baseUrl}/admin/login`,
+
+      {
+
+        email,
+
+        password
+
+      }
+
+    ).pipe(
+
+      tap((response) => {
+
+        this.storageService.setAccessToken(
+          response.data.accessToken
+        );
+
+        this.storageService.setRefreshToken(
+          response.data.refreshToken
+        );
+
+        this.storageService.setUser(
+          response.data.user
+        );
+
+        this.currentUserSubject.next(
+          response.data.user
+        );
+
+      })
 
 
-    // ==========================
-    // DEMO LOGIN
-    // API AANE PAR YAHAN HTTP POST LAGANA HAI
-    // ==========================
+    );
 
-    if (username === 'admin' && password === 'admin123') {
+  }
 
+  isLoggedIn(): boolean {
 
-      const response = {
+    return !!this.storageService.getAccessToken();
 
-        success: true,
+  }
 
-        token: this.DEMO_TOKEN,
+  refreshToken(): Observable<any> {
 
-        user: {
-          id: 1,
-          name: 'Admin'
+    const refreshToken =
+
+      this.storageService.getRefreshToken();
+
+    return this.http.post<any>(
+
+      `${this.baseUrl}/admin/refresh-token`,
+
+      {
+
+        refreshToken
+
+      }
+
+    ).pipe(
+
+      tap((response) => {
+
+        if (response.success) {
+
+          this.storageService.setAccessToken(
+
+            response.data.accessToken
+
+          );
+
         }
 
-      };
-
-
-      return of(response).pipe(
-
-        delay(500),
-
-        tap((res)=>{
-
-          this.setToken(res.token);
-
-        })
-
-      );
-
-
-    }
-
-
-    return of({
-
-      success:false,
-
-      message:'Invalid Username or Password'
-
-    }).pipe(
-
-      delay(500)
+      })
 
     );
 
   }
 
+  logout(): void {
 
+    this.storageService.clear();
 
-  setToken(token:string):void{
+    this.currentUserSubject.next(null);
 
-    sessionStorage.setItem(
-      this.TOKEN_KEY,
-      token
+  }
+
+  getProfile(): Observable<any> {
+
+    return this.http.get<any>(
+      `${this.baseUrl}/admin/me`
+    ).pipe(
+
+      tap((response) => {
+
+        if (response.success) {
+
+          this.storageService.setUser(
+            response.data
+          );
+
+          this.currentUserSubject.next(
+            response.data
+          );
+
+        }
+
+      })
+
     );
 
   }
+  loadCurrentUser(): void {
 
+    this.getProfile()
 
+      .subscribe({
 
-  getToken():string|null{
+        next: (response) => {
 
-    return sessionStorage.getItem(
-      this.TOKEN_KEY
-    );
+          if (response.success) {
+
+            this.storageService.setUser(
+
+              response.data
+
+            );
+
+            this.currentUserSubject.next(
+
+              response.data
+
+            );
+
+          }
+
+        },
+
+        error: () => {
+
+          this.logout();
+
+        }
+
+      });
 
   }
 
+  getAccessToken(): string | null {
 
-
-  isLoggedIn():boolean{
-
-    return !!this.getToken();
+    return this.storageService.getAccessToken();
 
   }
 
+  getRefreshToken(): string | null {
 
-
-  logout():void{
-
-    sessionStorage.removeItem(
-      this.TOKEN_KEY
-    );
+    return this.storageService.getRefreshToken();
 
   }
 
+  getCurrentUser() {
 
-
-  clearSession():void{
-
-    sessionStorage.clear();
+    return this.currentUser$;
 
   }
 
