@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service.ts';
 import { HttpClient } from '@angular/common/http';
@@ -24,44 +24,156 @@ export class AuthService {
 
   currentUser$ = this.currentUserSubject.asObservable();
 
+  // login(email: string, password: string): Observable<any> {
+
+  //   return this.http.post<any>(
+
+  //     `${this.baseUrl}/admin/login`,
+
+  //     {
+
+  //       email,
+
+  //       password
+
+  //     }
+
+  //   ).pipe(
+
+  //     tap((response) => {
+
+  //       this.storageService.setAccessToken(
+  //         response.data.accessToken
+  //       );
+
+  //       this.storageService.setRefreshToken(
+  //         response.data.refreshToken
+  //       );
+
+  //       this.storageService.setUser(
+  //         response.data.user
+  //       );
+
+  //       this.currentUserSubject.next(
+  //         response.data.user
+  //       );
+
+  //     })
+
+
+  //   );
+
+  // }
+
   login(email: string, password: string): Observable<any> {
 
+    // =====================================================
+    // DEMO LOGIN (TEMPORARY)
+    // =====================================================
+    // Backend login is kept below in comments.
+    // Uncomment it after all master modules are completed.
+    // =====================================================
+
+    if (email === 'admin' && password === 'admin123') {
+
+      const response = {
+
+        success: true,
+
+        data: {
+
+          accessToken: 'demo-access-token',
+
+          refreshToken: 'demo-refresh-token',
+
+          expiresIn: '15m',
+
+          user: {
+
+            id: 1,
+
+            employeeCode: 'EMP000001',
+
+            firstName: 'Super',
+
+            lastName: 'Admin',
+
+            email: 'admin@pace.com',
+
+            adminTypeId: 1,
+
+            adminStatusId: 1
+
+          }
+
+        }
+
+      };
+
+      this.storageService.setAccessToken(
+        response.data.accessToken
+      );
+
+      this.storageService.setRefreshToken(
+        response.data.refreshToken
+      );
+
+      this.storageService.setUser(
+        response.data.user
+      );
+
+      this.currentUserSubject.next(
+        response.data.user
+      );
+
+      return of(response);
+
+    }
+
+    return of({
+
+      success: false,
+
+      message: 'Invalid Username or Password'
+
+    });
+
+    // =====================================================
+    // PRODUCTION LOGIN
+    // Uncomment after Admin module is completed.
+    // =====================================================
+
+    /*
     return this.http.post<any>(
-
-      `${this.baseUrl}/admin/login`,
-
-      {
-
-        email,
-
-        password
-
-      }
-
+        `${this.baseUrl}/admin/login`,
+        {
+          email,
+          password
+        }
     ).pipe(
-
-      tap((response) => {
-
-        this.storageService.setAccessToken(
-          response.data.accessToken
-        );
-
-        this.storageService.setRefreshToken(
-          response.data.refreshToken
-        );
-
-        this.storageService.setUser(
-          response.data.user
-        );
-
-        this.currentUserSubject.next(
-          response.data.user
-        );
-
-      })
-
-
+  
+        tap((response) => {
+  
+            this.storageService.setAccessToken(
+                response.data.accessToken
+            );
+  
+            this.storageService.setRefreshToken(
+                response.data.refreshToken
+            );
+  
+            this.storageService.setUser(
+                response.data.user
+            );
+  
+            this.currentUserSubject.next(
+                response.data.user
+            );
+  
+        })
+  
     );
+    */
 
   }
 
