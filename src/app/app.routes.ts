@@ -61,6 +61,9 @@ export const routes: Routes = [
         path:'monitoring-server-health-status', loadChildren: () => import('./pages/master/monitoringServerHealthStatus/monitoringServerHealthStatus.routes').then((m) => m.MONITORINGSERVERHELTHSTATUS_ROUTE)
       },
       {
+        path:'mobile-recharge-status', loadChildren: () => import('./pages/master/mobileRechargeStatus/mobileRechargeStatus.routes').then((m) => m.MOBILERECHARGESTATUS_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
