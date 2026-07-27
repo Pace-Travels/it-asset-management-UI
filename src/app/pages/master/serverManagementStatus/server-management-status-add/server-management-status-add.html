@@ -1,0 +1,45 @@
+<app-page-header title="Add Server Management Status" subtitle="Create New Server Management Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="serveMangStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Server Management Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="serveMangStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Server Management Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="serveMangStatusForm.invalid" (click)="save()">
+
+                Save Server Management Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

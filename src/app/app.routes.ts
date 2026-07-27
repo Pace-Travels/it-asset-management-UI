@@ -52,6 +52,9 @@ export const routes: Routes = [
         path:'server-mngt-category', loadChildren: () => import('./pages/master/serverManagementCategory/serverManagementCategory.routes').then((m) => m.SERVERMANAGECATEGORY)
       },
       {
+        path:'server-mngt-status', loadChildren: () => import('./pages/master/serverManagementStatus/serverManagementStatus.routes').then((m) => m.SERVERMANAGESTATUS_TOUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
