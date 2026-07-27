@@ -1,0 +1,45 @@
+<app-page-header title="Edit Monitoring Backup Status" subtitle="Edit Monitoring Backup Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="monitoringBackupStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Monitoring Backup Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="monitoringBackupStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Monitoring Backup Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="monitoringBackupStatusForm.invalid" (click)="save()">
+
+                Update Monitoring Backup Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
