@@ -1,0 +1,45 @@
+<app-page-header title="Add Monitoring Server Health Status" subtitle="Create New Monitoring Server Health Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="monitoringServHlthStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Monitoring Server Health Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="monitoringServHlthStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Monitoring Server Health Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="monitoringServHlthStatusForm.invalid" (click)="save()">
+
+                Save Monitoring Server Health Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

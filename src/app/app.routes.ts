@@ -58,6 +58,9 @@ export const routes: Routes = [
         path:'monitoring-backup-status', loadChildren: () => import('./pages/master/monitoringBackupStatus/monitoringBackupStatus.routes').then((m) => m.MONITORINGBACKUPSTATUS_ROUTE)
       },
       {
+        path:'monitoring-server-health-status', loadChildren: () => import('./pages/master/monitoringServerHealthStatus/monitoringServerHealthStatus.routes').then((m) => m.MONITORINGSERVERHELTHSTATUS_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
