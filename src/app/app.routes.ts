@@ -49,6 +49,9 @@ export const routes: Routes = [
         path: "asset-info-categaory", loadChildren: () => import('./pages/master/assetInformationCategory/assetInformationCategory.routes').then((m) => m.ASSETINFOCATEGORY_ROUTE),
       },
       {
+        path:'server-mngt-category', loadChildren: () => import('./pages/master/serverManagementCategory/serverManagementCategory.routes').then((m) => m.SERVERMANAGECATEGORY)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

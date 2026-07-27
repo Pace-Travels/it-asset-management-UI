@@ -1,0 +1,45 @@
+<app-page-header title="Add Server Management Category" subtitle="Create New Server Management Category" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="serverMangCategoryForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Server Management Category Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="serverMangCategoryForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Server Management Category Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="serverMangCategoryForm.invalid" (click)="save()">
+
+                Save Server Management Category
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
