@@ -34,17 +34,21 @@
 
 .sidebar-header {
 
-    height: $header-height;
+    min-height: 165px;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
 
     flex-direction: column;
 
-    padding: 1rem;
+    align-items: center;
 
-    background: #111C33;
+    justify-content: center;
+
+    padding: 20px 16px;
+
+    background: linear-gradient(180deg,
+            #111C33,
+            #0F172A);
 
     border-bottom: 1px solid rgba(255, 255, 255, .08);
 
@@ -54,60 +58,79 @@
 
 .logo {
 
-    width: 52px;
-    height: 52px;
+    width: 72px;
 
-    border-radius: 12px;
-
-    background: #2563EB;
+    height: 72px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    overflow: hidden;
-
-    margin-bottom: .75rem;
+    margin-bottom: 14px;
 
 }
 
-.logo img {
+.logo img{
 
-    width: 100%;
-    height: 100%;
+    width:100%;
 
-    object-fit: cover;
+    height:100%;
+
+    object-fit:contain;
+
+    transition:.3s ease;
+
+    filter:drop-shadow(0 8px 18px rgba(0,0,0,.20));
 
 }
 
-.company {
+.logo img:hover{
 
-    text-align: center;
+    transform:scale(1.06);
 
 }
 
-.company h2 {
+.logo img:hover {
 
-    color: #fff;
+    transform: scale(1.05);
 
-    font-size: 18px;
-
-    font-weight: 700;
-
-    margin: 0;
-
-    letter-spacing: .5px;
 }
 
-.company span {
+.company{
 
-    color: #94A3B8;
+    text-align:center;
 
-    font-size: 13px;
+}
 
-    letter-spacing: 1px;
+.company h2{
 
-    text-transform: uppercase;
+    margin:0;
+
+    color:#FFFFFF;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+}
+
+.company span{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:#94A3B8;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
 
 }
 
@@ -213,11 +236,11 @@
 
 .nav-link.active {
 
-    background:rgba(59,130,246,.10);
+    background: rgba(59, 130, 246, .10);
 
-    color:#2563EB;
+    color: #2563EB;
 
-    font-weight:600;
+    font-weight: 600;
 
 }
 
@@ -359,11 +382,11 @@
 
 .sub-link.active {
 
-    background:rgba(59,130,246,.08);
+    background: rgba(59, 130, 246, .08);
 
-    color:#2563EB;
+    color: #2563EB;
 
-    font-weight:600;
+    font-weight: 600;
 
 }
 
@@ -410,21 +433,21 @@
 
 }
 
-@keyframes slideDown{
+@keyframes slideDown {
 
-    from{
+    from {
 
-        opacity:0;
+        opacity: 0;
 
-        transform:translateY(-6px);
+        transform: translateY(-6px);
 
     }
 
-    to{
+    to {
 
-        opacity:1;
+        opacity: 1;
 
-        transform:translateY(0);
+        transform: translateY(0);
 
     }
 
