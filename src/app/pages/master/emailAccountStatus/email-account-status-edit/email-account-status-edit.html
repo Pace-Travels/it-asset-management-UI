@@ -1,0 +1,45 @@
+<app-page-header title="Edit Mobile Recharge Status" subtitle="Edit Mobile Recharge Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="emailAccStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Mobile Recharge Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="emailAccStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Mobile Recharge Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="emailAccStatusForm.invalid" (click)="save()">
+
+                Update Mobile Recharge Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

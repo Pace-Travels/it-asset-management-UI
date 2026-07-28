@@ -65,7 +65,10 @@ export const routes: Routes = [
       },
       {
         path:'software-license-category', loadChildren: () => import('./pages/master/softwareLicenseCategory/softwareLicenseCategory.routes').then((m) => m.SOFTWARELINCCATEGORY_ROUTE)
-      }, 
+      },
+      {
+        path:'email-account-status', loadChildren: () => import('./pages/master/emailAccountStatus/emailAccountStatus.routes').then((m) => m.EMAILACCSTATUS_ROUTE)
+      },
       {
         path:'access-denied', component:AccessDenied
       },
