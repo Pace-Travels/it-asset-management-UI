@@ -70,6 +70,9 @@ export const routes: Routes = [
         path:'email-account-status', loadChildren: () => import('./pages/master/emailAccountStatus/emailAccountStatus.routes').then((m) => m.EMAILACCSTATUS_ROUTE)
       },
       {
+        path:'cloud-subs-service', loadChildren: () => import('./pages/master/cloudSubscriptionService/cloudSubsService.routes').then((m) => m.CLOUDSUBSSERVICE_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
