@@ -1,0 +1,82 @@
+<app-page-header title="Software License Category" buttonText="Add Software License Category" (buttonClick)="addSoftwareLicenseCategory()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchSoftwareLicenseCategory($event)" (add)="addSoftwareLicenseCategory()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Software License Category Name</th>
+
+                <th>Software License Category Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(softLicCate of tableData; track softLicCate.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{softLicCate.name}}</td>
+
+                <td>{{softLicCate.description}}</td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" title="Edit" (click)="editSoftwareLicenseCategory(softLicCate.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(softLicCate)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Software License Category'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedSoftwareLinceseCate?.name"
+    [itemCode]="selectedSoftwareLinceseCate?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteSoftwareLicenseCate()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

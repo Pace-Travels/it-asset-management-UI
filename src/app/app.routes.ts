@@ -64,6 +64,9 @@ export const routes: Routes = [
         path:'mobile-recharge-status', loadChildren: () => import('./pages/master/mobileRechargeStatus/mobileRechargeStatus.routes').then((m) => m.MOBILERECHARGESTATUS_ROUTE)
       },
       {
+        path:'software-license-category', loadChildren: () => import('./pages/master/softwareLicenseCategory/softwareLicenseCategory.routes').then((m) => m.SOFTWARELINCCATEGORY_ROUTE)
+      }, 
+      {
         path:'access-denied', component:AccessDenied
       },
       {

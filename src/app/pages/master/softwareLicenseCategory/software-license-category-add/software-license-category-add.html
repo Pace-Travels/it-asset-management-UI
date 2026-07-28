@@ -1,0 +1,45 @@
+<app-page-header title="Add Software License Category" subtitle="Create New Software License Category" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="softwareLicenseCateForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Software License Category Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="softwareLicenseCateForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Software License Category Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="softwareLicenseCateForm.invalid" (click)="save()">
+
+                Save Software License Category
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
