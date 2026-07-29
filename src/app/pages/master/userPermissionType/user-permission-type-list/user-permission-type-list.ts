@@ -13,18 +13,18 @@ export class UserPermissionTypeList {
 
   constructor(private router: Router, private userPermissionTypeService: UserPermissionTypeService, private messageService: MessageService, private cdr: ChangeDetectorRef) { }
 
-  renewalRemType: any[] = [];
+  userPermissionType: any[] = [];
 
-  filteredRenewalRemType: any[] = [];
+  filteredUserPermissionType: any[] = [];
 
   ngOnInit(): void {
 
-    this.getRenewalRemTypeList();
+    this.getUserpermissionType();
 
   }
 
 
-  getRenewalRemTypeList(): void {
+  getUserpermissionType(): void {
 
     this.loading = true;
 
@@ -92,7 +92,7 @@ export class UserPermissionTypeList {
 
     this.pageNumber = 1;
 
-    this.getRenewalRemTypeList();
+    this.getUserpermissionType();
 
   }
 
@@ -101,7 +101,7 @@ export class UserPermissionTypeList {
     this.router.navigate(['/user-permission-type/add']);
 
   }
-  editRenewalRemType(id: number): void {
+  editUserPermissionType(id: number): void {
 
     this.router.navigate(['/user-permission-type/update', id]);
 
@@ -129,7 +129,7 @@ export class UserPermissionTypeList {
 
   }
 
-  deleteRenewalRemType(): void {
+  deleteUserPermissionType(): void {
 
     if (!this.selectedUserPermissionType) {
       return;
@@ -158,7 +158,7 @@ export class UserPermissionTypeList {
             });
 
             // Refresh List
-            this.getRenewalRemTypeList();
+            this.getUserpermissionType();
 
           } else {
 
@@ -214,7 +214,7 @@ export class UserPermissionTypeList {
 
     this.pageNumber = page;
 
-    this.getRenewalRemTypeList();
+    this.getUserpermissionType();
 
   }
 
@@ -224,7 +224,7 @@ export class UserPermissionTypeList {
 
     this.pageNumber = 1;
 
-    this.getRenewalRemTypeList();
+    this.getUserpermissionType();
 
   }
 }
