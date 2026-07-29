@@ -1,0 +1,82 @@
+<app-page-header title="User Type" buttonText="Add User Type" (buttonClick)="addAdminType()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchAdminType($event)" (add)="addAdminType()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>User Type Name</th>
+
+                <th>User Type Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(AdminType of tableData; track AdminType.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{AdminType.name}}</td>
+
+                <td>{{AdminType.description}}</td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editAdminType(AdminType.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(AdminType)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete User Type'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedAdminType?.name"
+    [itemCode]="selectedAdminType?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteAdminType()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>
