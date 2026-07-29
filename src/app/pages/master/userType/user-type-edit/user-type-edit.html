@@ -1,0 +1,45 @@
+<app-page-header title="Edit User Type" subtitle="Edit User Type" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="userTypeForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>User Type Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="userTypeForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>User Type Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="userTypeForm.invalid" (click)="save()">
+
+                Update User Type
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

@@ -79,6 +79,9 @@ export const routes: Routes = [
         path:'user-role-status', loadChildren: () => import('./pages/master/userRoleStatus/userRoleStatus.routes').then((m) => m.USERROLESTSTUS_ROUTE)
       },
       {
+        path:'user-type', loadChildren: () => import('./pages/master/userType/userType.routes').then((m) => m.USERTYPE_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
