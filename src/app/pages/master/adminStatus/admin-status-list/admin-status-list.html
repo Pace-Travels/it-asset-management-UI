@@ -1,0 +1,82 @@
+<app-page-header title="Admin Status" buttonText="Add Admin Status" (buttonClick)="addAdminStatus()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchAdminStatus($event)" (add)="addAdminStatus()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Admin Status Name</th>
+
+                <th>Admin Status Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(AdminStatus of tableData; track AdminStatus.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{AdminStatus.name}}</td>
+
+                <td>{{AdminStatus.description}}</td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editAdminStatus(AdminStatus.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(AdminStatus)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Admin Status'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedAdminStatus?.name"
+    [itemCode]="selectedAdminStatus?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteAdminStatus()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

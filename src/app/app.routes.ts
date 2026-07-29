@@ -85,6 +85,9 @@ export const routes: Routes = [
         path:'admin-type', loadChildren: () => import('./pages/master/adminType/adminType.routes').then((m) => m.ADMINTYPE_ROUTE)
       },
       {
+        path:'admin-status', loadChildren: () => import('./pages/master/adminStatus/adminStatus.routes').then((m) => m.ADMINSTATUS_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

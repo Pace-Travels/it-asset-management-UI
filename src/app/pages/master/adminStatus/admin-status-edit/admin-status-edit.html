@@ -1,0 +1,45 @@
+<app-page-header title="Edit Admin Status" subtitle="Edit Admin Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="adminStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Admin Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="adminStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Admin Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="adminStatusForm.invalid" (click)="save()">
+
+                Update Admin Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
