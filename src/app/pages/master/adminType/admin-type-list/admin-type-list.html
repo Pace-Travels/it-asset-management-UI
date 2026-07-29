@@ -1,4 +1,4 @@
-<app-page-header title="User Type" buttonText="Add User Type" (buttonClick)="addAdminType()">
+<app-page-header title="Admin Type" buttonText="Add Admin Type" (buttonClick)="addAdminType()">
 </app-page-header>
 
 <app-table-toolbar (search)="searchAdminType($event)" (add)="addAdminType()" [enableFilter]="false"></app-table-toolbar>
@@ -13,9 +13,9 @@
 
                 <th>#</th>
 
-                <th>User Type Name</th>
+                <th>Admin Type Name</th>
 
-                <th>User Type Description</th>
+                <th>Admin Type Description</th>
 
                 <th>Action</th>
 
@@ -74,7 +74,7 @@
 
 </div>
 
-<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete User Type'"
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Admin Type'"
     [message]="'Are you sure you want to permanently delete'" [itemName]="selectedAdminType?.name"
     [itemCode]="selectedAdminType?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
     (confirm)="deleteAdminType()" (cancel)="closeDeleteDialog()">

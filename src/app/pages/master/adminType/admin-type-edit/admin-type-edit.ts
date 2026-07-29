@@ -188,7 +188,7 @@ export class AdminTypeEdit {
 
               });
 
-              this.router.navigate(['/user-type']);
+              this.router.navigate(['/admin-type']);
 
             }
             else {

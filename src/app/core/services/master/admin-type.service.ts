@@ -28,7 +28,7 @@ export class AdminTypeService {
     }
 
     return this.http.get(
-      `${this.controller}/master-Common-module/user-type`,
+      `${this.controller}/master-Common-module/admin-type`,
       { params }
     );
 
@@ -37,7 +37,7 @@ export class AdminTypeService {
   add(payload: any): Observable<any> {
 
     return this.http.post(
-      `${this.controller}/master-Common-module/user-type/`,
+      `${this.controller}/master-Common-module/admin-type/`,
       payload
     );
 
@@ -46,7 +46,7 @@ export class AdminTypeService {
   getByIdData(id: number): Observable<any> {
 
     return this.http.get(
-      `${this.controller}/master-Common-module/user-type/${id}`
+      `${this.controller}/master-Common-module/admin-type/${id}`
     );
 
   }
@@ -54,7 +54,7 @@ export class AdminTypeService {
   update(id: number, payload: any): Observable<any> {
 
     return this.http.put(
-      `${this.controller}/master-Common-module/user-type/${id}`,
+      `${this.controller}/master-Common-module/admin-type/${id}`,
       payload
     );
 
@@ -64,7 +64,7 @@ export class AdminTypeService {
 
     return this.http.delete(
 
-      `${this.controller}/master-Common-module/user-type/${id}`
+      `${this.controller}/master-Common-module/admin-type/${id}`
 
     );
 
