@@ -1,0 +1,45 @@
+<app-page-header title="Edit User Role Status" subtitle="Edit User Role Status" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="userRoleStatusForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>User Role Status Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="userRoleStatusForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>User Role Status Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="userRoleStatusForm.invalid" (click)="save()">
+
+                Update User Role Status
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

@@ -76,6 +76,9 @@ export const routes: Routes = [
         path:'renewal-reminder-type', loadChildren: () => import('./pages/master/renewalReminderType/renewalReminderType.routes').then((m) => m.RENEWALREMITYPE_ROUTE)
       },
       {
+        path:'user-role-status', loadChildren: () => import('./pages/master/userRoleStatus/userRoleStatus.routes').then((m) => m.USERROLESTSTUS_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
