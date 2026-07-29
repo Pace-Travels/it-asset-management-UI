@@ -73,6 +73,9 @@ export const routes: Routes = [
         path:'cloud-subs-service', loadChildren: () => import('./pages/master/cloudSubscriptionService/cloudSubsService.routes').then((m) => m.CLOUDSUBSSERVICE_ROUTE)
       },
       {
+        path:'renewal-reminder-type', loadChildren: () => import('./pages/master/renewalReminderType/renewalReminderType.routes').then((m) => m.RENEWALREMITYPE_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
