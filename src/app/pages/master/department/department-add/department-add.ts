@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Department } from '../../../../core/services/master/department.service.ts';
-import { Location } from '@angular/common';
+import { Department } from '../../../../core/services/master/department';
+import { CommonModule, Location } from '@angular/common';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
+import { PageHeader } from '../../../shared/components/page-header/page-header';
 
 @Component({
   selector: 'app-department-add',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, ValidationMessage, PageHeader],
   templateUrl: './department-add.html',
   styleUrl: './department-add.scss',
 })
@@ -17,7 +19,7 @@ export class DepartmentAdd {
 
   constructor(
     private fb: FormBuilder,
-    private department: Department,
+    private departmentService: Department,
     private router: Router,
     private messageService: MessageService,
   ) { }

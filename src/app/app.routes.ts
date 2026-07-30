@@ -97,6 +97,9 @@ export const routes: Routes = [
         path:'subscription-reminder-type', loadChildren: () => import('./pages/master/subscriptionReminderType/subscriptionReminderType.routes').then((m) => m.SUBSREMINDERTYPE_ROUTE)
       },
       {
+        path:'department', loadChildren: () => import('./pages/master/department/department.routes').then((m) => m.DEPARTMENT_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

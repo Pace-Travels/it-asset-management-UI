@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DepartmentService } from '../../../../core/services/master/department.service.ts';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { Department } from '../../../../core/services/master/department.js';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message.js';
+import { PageHeader } from '../../../shared/components/page-header/page-header.js';
 
 @Component({
   selector: 'app-department-edit',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, ValidationMessage, PageHeader],
   templateUrl: './department-edit.html',
   styleUrl: './department-edit.scss',
 })
@@ -17,13 +19,13 @@ export class DepartmentEdit {
 
   constructor(
     private fb: FormBuilder,
-    private departmentService: DepartmentService,
+    private departmentService: Department,
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService
   ) { }
 
-  assetId!: number;
+  departmentId!: number;
 
   ngOnInit() {
 
@@ -35,9 +37,9 @@ export class DepartmentEdit {
 
     this.route.params.subscribe(params => {
 
-      this.assetId = Number(params['id']);
+      this.departmentId = Number(params['id']);
 
-      if (this.assetId) {
+      if (this.departmentId) {
 
         this.getDepartmentData();
 
@@ -50,7 +52,7 @@ export class DepartmentEdit {
   getDepartmentData(): void {
 
     this.departmentService
-      .getDepartmentData(this.assetId)
+      .getByIdData(this.departmentId)
       .subscribe({
 
         next: (response) => {

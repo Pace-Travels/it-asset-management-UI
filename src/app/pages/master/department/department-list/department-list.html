@@ -1,1 +1,82 @@
-<p>department-list works!</p>
+<app-page-header title="Department" buttonText="Add Department" (buttonClick)="addDepartment()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchDepartment($event)" (add)="addDepartment()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Department Name</th>
+
+                <th>Department Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(department of tableData; track department.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{department.name}}</td>
+
+                <td>{{department.description}}</td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" title="Edit" (click)="editDepartment(department.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(department)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Department'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedDepartment?.name"
+    [itemCode]="selectedDepartment?.description" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteDepartment()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>
