@@ -1,0 +1,45 @@
+<app-page-header title="Add Subscription Payment Method" subtitle="Create New Subscription Payment Method" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="subsPaymentMethodForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Subscription Payment Method Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="subsPaymentMethodForm.controls['name']"
+                    label="Asset Name"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Subscription Payment Method Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="subsPaymentMethodForm.invalid" (click)="save()">
+
+                Save Subscription Payment Method
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

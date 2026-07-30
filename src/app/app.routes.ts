@@ -91,6 +91,9 @@ export const routes: Routes = [
         path:'user-permission-type', loadChildren: () => import('./pages/master/userPermissionType/userPermissionType.route').then((m) => m.USERPERMISSIONTYPE)
       },
       {
+        path:'subscription-payment-method', loadChildren: () => import('./pages/master/subscriptionPaymentMethod/subscriptionPaymentMethod.routes').then((m) => m.SUBSPAYMENTMETHOD_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
