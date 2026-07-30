@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserPermissionTypeService } from '../../../../core/services/master/user-permission-type.service';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
+import { PageHeader } from '../../../shared/components/page-header/page-header';
 
 @Component({
   selector: 'app-user-permission-type-edit',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, ValidationMessage, PageHeader],
   templateUrl: './user-permission-type-edit.html',
   styleUrl: './user-permission-type-edit.scss',
 })

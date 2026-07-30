@@ -25,27 +25,27 @@
 
         <tbody>
 
-            @for(asset of tableData; track asset.id; let i = $index){
+            @for(uPermiType of tableData; track uPermiType.id; let i = $index){
 
             <tr>
 
                 <td>{{i+1}}</td>
 
-                <td>{{asset.name}}</td>
+                <td>{{uPermiType.name}}</td>
 
-                <td>{{asset.description}}</td>
+                <td>{{uPermiType.description}}</td>
 
                 <td>
 
                     <div class="table-actions">
 
-                        <button class="icon-btn warning" (click)="editUserPermissionType(asset.id)">
+                        <button class="icon-btn warning" (click)="editUserPermissionType(uPermiType.id)">
 
                             <i class="pi pi-pencil"></i>
 
                         </button>
 
-                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(asset)">
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(uPermiType)">
 
                             <i class="pi pi-trash"></i>
 

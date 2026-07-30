@@ -2,10 +2,16 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserPermissionTypeService } from '../../../../core/services/master/user-permission-type.service';
+import { CommonModule } from '@angular/common';
+import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { TableToolbar } from '../../../shared/components/table-toolbar/table-toolbar';
+import { Pagination } from '../../../shared/components/pagination/pagination';
+import { PageHeader } from '../../../shared/components/page-header/page-header';
 
 @Component({
   selector: 'app-user-permission-type-list',
-  imports: [],
+  imports: [CommonModule, EmptyState, ConfirmationDialog, TableToolbar, Pagination, PageHeader ],
   templateUrl: './user-permission-type-list.html',
   styleUrl: './user-permission-type-list.scss',
 })
