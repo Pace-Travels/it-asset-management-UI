@@ -94,6 +94,9 @@ export const routes: Routes = [
         path:'subscription-payment-method', loadChildren: () => import('./pages/master/subscriptionPaymentMethod/subscriptionPaymentMethod.routes').then((m) => m.SUBSPAYMENTMETHOD_ROUTE)
       },
       {
+        path:'subscription-reminder-type', loadChildren: () => import('./pages/master/subscriptionReminderType/subscriptionReminderType.routes').then((m) => m.SUBSREMINDERTYPE_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
