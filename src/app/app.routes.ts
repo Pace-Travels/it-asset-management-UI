@@ -100,6 +100,9 @@ export const routes: Routes = [
         path:'department', loadChildren: () => import('./pages/master/department/department.routes').then((m) => m.DEPARTMENT_ROUTE)
       },
       {
+        path:'permission', loadChildren: () => import('./pages/master/permission/permission.routes').then((m) => m.PERMISSION_ROUTE)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

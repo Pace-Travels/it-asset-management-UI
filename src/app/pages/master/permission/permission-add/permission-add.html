@@ -1,0 +1,45 @@
+<app-page-header title="Add Permission" subtitle="Create New Permission" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="userPermissionTypeForm">
+        <div class="form-grid-2">
+            <div class="form-group">
+
+                <label>Permission Name<span class="required">*</span></label>
+
+                <input type="text" formControlName="name">
+                <app-validation-message [control]="userPermissionTypeForm.controls['name']"
+                    label="U"></app-validation-message>
+            </div>
+        </div>
+        <div class="form-grid-1">
+            <div class="form-group">
+
+                <label>Permission Description</label>
+
+                <textarea formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+
+            <button type="submit" class="primary-btn" [disabled]="userPermissionTypeForm.invalid" (click)="save()">
+
+                Save Permission
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
