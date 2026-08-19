@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { env } from '../../config/env';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Department {
+export class AdminService {
 
   private readonly http = inject(HttpClient);
 
@@ -27,18 +28,8 @@ export class Department {
     }
 
     return this.http.get(
-      `${this.controller}/master-Common-module/department`,
+      `${this.controller}/admin`,
       { params }
-    );
-
-  }
-
-  fetchAll(): Observable<any> {
-
-    return this.http.get(
-
-      `${this.controller}/master-Common-module/department`
-
     );
 
   }
@@ -46,7 +37,7 @@ export class Department {
   add(payload: any): Observable<any> {
 
     return this.http.post(
-      `${this.controller}/master-Common-module/department/`,
+      `${this.controller}/admin/`,
       payload
     );
 
@@ -55,7 +46,7 @@ export class Department {
   getByIdData(id: number): Observable<any> {
 
     return this.http.get(
-      `${this.controller}/master-Common-module/department/${id}`
+      `${this.controller}/admin/${id}`
     );
 
   }
@@ -63,7 +54,7 @@ export class Department {
   update(id: number, payload: any): Observable<any> {
 
     return this.http.put(
-      `${this.controller}/master-Common-module/department/${id}`,
+      `${this.controller}/admin/${id}`,
       payload
     );
 
@@ -73,7 +64,7 @@ export class Department {
 
     return this.http.delete(
 
-      `${this.controller}/master-Common-module/department/${id}`
+      `${this.controller}/admin/${id}`
 
     );
 

@@ -34,6 +34,17 @@ export class UserTypeService {
 
   }
 
+  fetchAll(): Observable<any> {
+
+    return this.http.get(
+
+      `${this.controller}/master-Common-module/user-type`
+
+    );
+
+  }
+
+
   add(payload: any): Observable<any> {
 
     return this.http.post(

@@ -28,8 +28,18 @@ export class UserRoleStatusEditService {
     }
 
     return this.http.get(
-      `${this.controller}/master-Common-module/renewal-reminder-type`,
+      `${this.controller}/master-Common-module/user-role-status`,
       { params }
+    );
+
+  }
+
+  fetchAll(): Observable<any> {
+
+    return this.http.get(
+
+      `${this.controller}/master-Common-module/user-role-status`
+
     );
 
   }
@@ -37,7 +47,7 @@ export class UserRoleStatusEditService {
   add(payload: any): Observable<any> {
 
     return this.http.post(
-      `${this.controller}/master-Common-module/renewal-reminder-type/`,
+      `${this.controller}/master-Common-module/user-role-status/`,
       payload
     );
 
@@ -46,7 +56,7 @@ export class UserRoleStatusEditService {
   getByIdData(id: number): Observable<any> {
 
     return this.http.get(
-      `${this.controller}/master-Common-module/renewal-reminder-type/${id}`
+      `${this.controller}/master-Common-module/user-role-status/${id}`
     );
 
   }
@@ -54,7 +64,7 @@ export class UserRoleStatusEditService {
   update(id: number, payload: any): Observable<any> {
 
     return this.http.put(
-      `${this.controller}/master-Common-module/renewal-reminder-type/${id}`,
+      `${this.controller}/master-Common-module/user-role-status/${id}`,
       payload
     );
 
@@ -64,7 +74,7 @@ export class UserRoleStatusEditService {
 
     return this.http.delete(
 
-      `${this.controller}/master-Common-module/renewal-reminder-type/${id}`
+      `${this.controller}/master-Common-module/user-role-status/${id}`
 
     );
 

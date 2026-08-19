@@ -1,0 +1,277 @@
+<app-page-header title="Add Admin" subtitle="Create New Admin Information" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="adminForm">
+
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+
+                General Information
+
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Employee Code
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="text" formControlName="employeeCode">
+
+                    <app-validation-message [control]="adminForm.controls['employeeCode']" label="Employee Code">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        First Name
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="text" formControlName="firstName">
+
+                    <app-validation-message [control]="adminForm.controls['firstName']" label="First Name">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Last Name
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="text" formControlName="lastName">
+
+                    <app-validation-message [control]="adminForm.controls['lastName']" label="Last Name">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Email
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="email" formControlName="email">
+
+                    <app-validation-message [control]="adminForm.controls['email']" label="Email">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Mobile Number
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="text" formControlName="mobileNumber">
+
+                    <app-validation-message [control]="adminForm.controls['mobileNumber']" label="Mobile Number">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Password
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input type="password" formControlName="password">
+
+                    <app-validation-message [control]="adminForm.controls['password']" label="Password">
+                    </app-validation-message>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+
+                Role Information
+
+            </h3>
+
+            <div class="form-grid-4">
+
+                <div class="form-group">
+
+                    <label>
+
+                        User Role
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select formControlName="userRoleId">
+
+                        <option [value]="1">
+
+                            Select User Role
+
+                        </option>
+                        <option *ngFor="let role of userRoles" [value]="role.id">
+
+                            {{ role.name }}
+
+                        </option>
+
+                    </select>
+
+                    <app-validation-message [control]="adminForm.controls['userRoleId']" label="User Role">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        User Type
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select formControlName="userTypeId">
+
+                        <option [ngValue]="null">
+
+                            Select User Type
+
+                        </option>
+                        <option *ngFor="let type of userTypes" [value]="type.id">
+
+                            {{ type.name }}
+
+                        </option>
+
+                    </select>
+
+                    <app-validation-message [control]="adminForm.controls['userTypeId']" label="User Type">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Department
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select formControlName="departmentId">
+
+                        <option [ngValue]="null">
+
+                            Select Department
+
+                        </option>
+                        <option *ngFor="let department of departments" [value]="department.id">
+
+                            {{ department.name }}
+
+                        </option>
+
+                    </select>
+
+                    <app-validation-message [control]="adminForm.controls['departmentId']" label="Department">
+                    </app-validation-message>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Admin Status
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select formControlName="adminStatusId">
+
+                        <option [ngValue]="null">
+
+                            Select Admin Status
+
+                        </option>
+
+                        <option *ngFor="let status of adminStatuses" [value]="status.id">
+
+                            {{ status.name }}
+
+                        </option>
+                    </select>
+
+                    <app-validation-message [control]="adminForm.controls['adminStatusId']" label="Admin Status">
+                    </app-validation-message>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+
+                Cancel
+
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="adminForm.invalid" (click)="save()">
+
+                Save Admin
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

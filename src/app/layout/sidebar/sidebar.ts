@@ -110,6 +110,7 @@ export class Sidebar implements OnInit {
 
         ]
     },
+    { id: 'adminUser', label: 'Admin User', icon: 'pi pi-user', route: '/adminUser', permission: 'REPORT_VIEW' },
     { id: 'reports', label: 'Reports', icon: 'pi pi-chart-bar', route: '/reports', permission: 'REPORT_VIEW' },
     { id: 'settings', label: 'Settings', icon: 'pi pi-cog', route: '/settings', permission: 'SETTINGS_VIEW' }
 

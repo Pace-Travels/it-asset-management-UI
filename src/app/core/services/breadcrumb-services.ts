@@ -182,10 +182,17 @@ export class BreadcrumbService {
     },
 
     {
-      label: 'Reports',
-      route: '/reports'
+      label: 'Admin User',
+      route: '/adminUser'
     },
-
+    {
+      label: 'Admin User Add',
+      route: '/adminUser/add'
+    },
+    {
+      label: 'Admin User Add',
+      route: '/adminUser/update/:id'
+    },
     {
       label: 'Settings',
       route: '/settings'

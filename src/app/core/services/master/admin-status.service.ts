@@ -34,6 +34,16 @@ export class AdminStatusService {
 
   }
 
+  fetchAll(): Observable<any> {
+
+    return this.http.get(
+
+      `${this.controller}/master-Common-module/admin-status`
+
+    );
+
+  }
+
   add(payload: any): Observable<any> {
 
     return this.http.post(

@@ -1,0 +1,122 @@
+<app-page-header title="Admin Information" buttonText="Add Admin" (buttonClick)="addAdmin()">
+</app-page-header>
+
+<app-table-toolbar>(search)="searchAdmin($event)"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>Admin Code</th>
+
+                <th>First Name</th>
+
+                <th>Last Name</th>
+
+                <th>Email</th>
+
+                <th>Mobile Number</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(Admin of filteredAdmins; track Admin.AdminCode){
+
+            <tr>
+
+                <td>{{Admin.employeeCode}}</td>
+
+                <td>{{Admin.firstName}}</td>
+
+                <td>{{Admin.lastName}}</td>
+
+                <td>{{Admin.email}}</td>
+
+                <td>{{Admin.mobileNumber}}</td>
+
+                <td>
+
+                    <span class="status" [ngClass]="{
+                            'active':Admin.adminStatusId==='Active',
+                            'repair':Admin.adminStatusId==='Repair',
+                            'scrap':Admin.adminStatusId==='Scrap'
+                        }">
+
+                        {{Admin.adminStatusId}}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn">
+
+                            <i class="pi pi-eye"></i>
+
+                        </button>
+
+                        <button class="icon-btn warning">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(Admin)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+    @if(filteredAdmins.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+</div>
+
+<app-confirmation-dialog
+
+    [(visible)]="showDeleteDialog"
+
+    [title]="'Delete Admin'"
+
+    [message]="'Are you sure you want to permanently delete'"
+
+    [itemName]="selectedAdmin?.AdminName"
+
+    [itemCode]="selectedAdmin?.AdminCode"
+
+    [loading]="isDeleting"
+
+    [confirmButtonText]="'Delete'"
+
+    (confirm)="deleteAdmin()"
+
+    (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

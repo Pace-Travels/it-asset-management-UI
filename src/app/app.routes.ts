@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/auth/login/login';
-import { MainLayout } from './layout/main-layout/main-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { NotFound } from './pages/not-found/not-found';
 import { AccessDenied } from './pages/access-denied/access-denied';
@@ -101,6 +99,9 @@ export const routes: Routes = [
       },
       {
         path:'permission', loadChildren: () => import('./pages/master/permission/permission.routes').then((m) => m.PERMISSION_ROUTE)
+      },
+      {
+        path:'adminUser', loadChildren: () => import('./pages/auth/admin/admin.routes').then((m) => m.ADMIN_ROUTE),
       },
       {
         path:'access-denied', component:AccessDenied
