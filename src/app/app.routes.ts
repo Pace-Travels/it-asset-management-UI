@@ -104,6 +104,15 @@ export const routes: Routes = [
         path:'adminUser', loadChildren: () => import('./pages/auth/admin/admin.routes').then((m) => m.ADMIN_ROUTE),
       },
       {
+        path:'vendor-management', loadChildren: () => import('./pages/master/vendorManagement/VendorManagement.routes').then((m) => m.VENDOR_MANG),
+      },
+      {
+        path:'employee-details', loadChildren : () => import('./pages/master/employeeDetails/employeeDetails.routes').then((m) => m.EMPLOYEE_DETAILS_ROUTES),
+      },
+      {
+        path:'server-managment', loadChildren: () => import('./pages/master/serverManagement/serverManagement.routes').then((m) => m.SERVEMANAGEMENT_ROUTES),
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

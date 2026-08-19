@@ -1,0 +1,111 @@
+<app-page-header title="Employee Details" buttonText="Add Employee" (buttonClick)="addEmployee()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchEmployee($event)" (add)="addEmployee()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Employee Code</th>
+
+                <th>Employee ID</th>
+
+                <th>Employee Name</th>
+
+                <th>Department</th>
+
+                <th>Designation</th>
+
+                <th>Email</th>
+
+                <th>Mobile Number</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(employee of tableData; track employee.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{employee.employeeCode}}</td>
+
+                <td>{{employee.employeeId}}</td>
+
+                <td>{{employee.employeeName}}</td>
+
+                <td>{{employee.department?.name || '-'}}</td>
+
+                <td>{{employee.designation}}</td>
+
+                <td>{{employee.email}}</td>
+
+                <td>{{employee.mobileNumber}}</td>
+
+                <td>
+                    <span [class]="employee.isActive ? 'badge success' : 'badge danger'">
+                        {{employee.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editEmployee(employee.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(employee)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Employee'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedEmployee?.employeeName"
+    [itemCode]="selectedEmployee?.employeeCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteEmployee()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

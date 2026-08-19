@@ -1,0 +1,111 @@
+<app-page-header title="Server Management" buttonText="Add Server" (buttonClick)="addServer()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchServer($event)" (add)="addServer()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Server Code</th>
+
+                <th>Server Name</th>
+
+                <th>Category</th>
+
+                <th>Status</th>
+
+                <th>IP Address</th>
+
+                <th>Location</th>
+
+                <th>Vendor</th>
+
+                <th>Active Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(server of tableData; track server.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{server.serverCode}}</td>
+
+                <td>{{server.serverName}}</td>
+
+                <td>{{server.serverCategory?.name || '-'}}</td>
+
+                <td>{{server.serverStatus?.name || '-'}}</td>
+
+                <td>{{server.ipAddress}}</td>
+
+                <td>{{server.serverLocation}}</td>
+
+                <td>{{server.vendor?.vendorName || '-'}}</td>
+
+                <td>
+                    <span [class]="server.isActive ? 'badge success' : 'badge danger'">
+                        {{server.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editServer(server.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(server)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Server'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedServer?.serverName"
+    [itemCode]="selectedServer?.serverCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteServer()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

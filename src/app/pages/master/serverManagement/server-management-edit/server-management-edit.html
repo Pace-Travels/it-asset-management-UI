@@ -1,0 +1,221 @@
+<app-page-header title="Edit Server" subtitle="Update Server Information" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="serverForm">
+
+        <!-- General & Server Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Server Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Server Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="serverCode">
+                    <app-validation-message [control]="serverForm.controls['serverCode']" label="Server Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="serverName">
+                    <app-validation-message [control]="serverForm.controls['serverName']" label="Server Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server Category
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="serverCategoryId">
+                        <option [ngValue]="null">Select Category</option>
+                        <option *ngFor="let cat of categories" [value]="cat.id">
+                            {{ cat.name }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="serverForm.controls['serverCategoryId']" label="Server Category">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server Status
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="serverStatusId">
+                        <option [ngValue]="null">Select Status</option>
+                        <option *ngFor="let status of statuses" [value]="status.id">
+                            {{ status.name }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="serverForm.controls['serverStatusId']" label="Server Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server Location
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="serverLocation">
+                    <app-validation-message [control]="serverForm.controls['serverLocation']" label="Server Location">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Host Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="hostName">
+                    <app-validation-message [control]="serverForm.controls['hostName']" label="Host Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        IP Address
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="ipAddress">
+                    <app-validation-message [control]="serverForm.controls['ipAddress']" label="IP Address">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Operating System
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="operatingSystem">
+                    <app-validation-message [control]="serverForm.controls['operatingSystem']" label="Operating System">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Vendor
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="vendorId">
+                        <option [ngValue]="null">Select Vendor</option>
+                        <option *ngFor="let vendor of vendors" [value]="vendor.id">
+                            {{ vendor.vendorName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="serverForm.controls['vendorId']" label="Vendor">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Hardware & Additional Information -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Hardware & Additional Information
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        RAM
+                    </label>
+                    <input type="text" formControlName="ram">
+                    <app-validation-message [control]="serverForm.controls['ram']" label="RAM">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Storage
+                    </label>
+                    <input type="text" formControlName="storage">
+                    <app-validation-message [control]="serverForm.controls['storage']" label="Storage">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Processor
+                    </label>
+                    <input type="text" formControlName="processor">
+                    <app-validation-message [control]="serverForm.controls['processor']" label="Processor">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Purchase Date
+                    </label>
+                    <input type="date" formControlName="purchaseDate">
+                    <app-validation-message [control]="serverForm.controls['purchaseDate']" label="Purchase Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Expiry Date
+                    </label>
+                    <input type="date" formControlName="expiryDate">
+                    <app-validation-message [control]="serverForm.controls['expiryDate']" label="Expiry Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Status
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="serverForm.controls['isActive']" label="Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <input type="text" formControlName="remarks">
+                    <app-validation-message [control]="serverForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="serverForm.invalid" (click)="update()">
+                Update Server
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
