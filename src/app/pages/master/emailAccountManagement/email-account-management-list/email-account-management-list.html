@@ -1,0 +1,111 @@
+<app-page-header title="Email Account Management" buttonText="Add Email Account" (buttonClick)="addEmailAccount()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchEmailAccount($event)" (add)="addEmailAccount()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Email Code</th>
+
+                <th>Email Address</th>
+
+                <th>Employee</th>
+
+                <th>Provider</th>
+
+                <th>Renewal Date</th>
+
+                <th>Renewal Cost</th>
+
+                <th>Status</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(account of tableData; track account.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{account.emailCode}}</td>
+
+                <td>{{account.emailAddress}}</td>
+
+                <td>{{account.employee?.firstName}} {{account.employee?.lastName}} ({{account.employee?.employeeCode}})</td>
+
+                <td>{{account.provider}}</td>
+
+                <td>{{account.renewalDate ? (account.renewalDate | date:'mediumDate') : '-'}}</td>
+
+                <td>{{account.renewalCost ? (account.renewalCost | currency) : '-'}}</td>
+
+                <td>{{account.status?.statusName || '-'}}</td>
+
+                <td>
+                    <span [class]="account.isActive ? 'badge success' : 'badge danger'">
+                        {{account.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editEmailAccount(account.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(account)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Email Account'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedEmailAccount?.emailAddress"
+    [itemCode]="selectedEmailAccount?.emailCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteEmailAccount()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

@@ -125,6 +125,9 @@ export const routes: Routes = [
         path:'ssl-certificate-management', loadChildren: () => import('./pages/master/SSLCertificateManagement/sslCertificateManagement.routes').then((m) => m.SSL_CERTI_MANG),
       },
       {
+        path:'email-account-management', loadChildren: () => import('./pages/master/emailAccountManagement/emailAccountManagement .routes').then((m) => m.EMAIL_ACC_MANG)
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
