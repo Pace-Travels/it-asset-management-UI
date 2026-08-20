@@ -1,0 +1,189 @@
+<app-page-header title="Add Software License" subtitle="Create New Software License Record" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="licenseForm">
+
+        <!-- Software & License Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                License Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        License Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="licenseCode">
+                    <app-validation-message [control]="licenseForm.controls['licenseCode']" label="License Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Software Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="softwareName">
+                    <app-validation-message [control]="licenseForm.controls['softwareName']" label="Software Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Software Category
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="softwareCategoryId">
+                        <option [ngValue]="null">Select Category</option>
+                        <option *ngFor="let cat of categories" [value]="cat.id">
+                            {{ cat.name }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="licenseForm.controls['softwareCategoryId']" label="Software Category">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Vendor
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="vendorId">
+                        <option [ngValue]="null">Select Vendor</option>
+                        <option *ngFor="let vendor of vendors" [value]="vendor.id">
+                            {{ vendor.vendorName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="licenseForm.controls['vendorId']" label="Vendor">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        License Type
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="licenseType">
+                    <app-validation-message [control]="licenseForm.controls['licenseType']" label="License Type">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Total Users
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="numberOfUsers">
+                    <app-validation-message [control]="licenseForm.controls['numberOfUsers']" label="Total Users">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Assigned Users
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="assignedUsers">
+                    <app-validation-message [control]="licenseForm.controls['assignedUsers']" label="Assigned Users">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Dates & Renewal Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Subscription & Renewal Information
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Purchase Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="purchaseDate">
+                    <app-validation-message [control]="licenseForm.controls['purchaseDate']" label="Purchase Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Expiry Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="expiryDate">
+                    <app-validation-message [control]="licenseForm.controls['expiryDate']" label="Expiry Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Renewal Date
+                    </label>
+                    <input type="date" formControlName="renewalDate">
+                    <app-validation-message [control]="licenseForm.controls['renewalDate']" label="Renewal Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Renewal Cost
+                    </label>
+                    <input type="number" step="0.01" formControlName="renewalCost">
+                    <app-validation-message [control]="licenseForm.controls['renewalCost']" label="Renewal Cost">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Status
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="licenseForm.controls['isActive']" label="Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <input type="text" formControlName="remarks">
+                    <app-validation-message [control]="licenseForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="licenseForm.invalid" (click)="save()">
+                Save License
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

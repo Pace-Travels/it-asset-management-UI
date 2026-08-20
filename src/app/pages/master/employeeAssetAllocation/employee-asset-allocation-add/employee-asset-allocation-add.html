@@ -1,0 +1,145 @@
+<app-page-header title="Add Asset Allocation"></app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="allocationForm" (ngSubmit)="onSubmit()">
+
+        <div class="grid">
+
+            <div class="col-12 md:col-6">
+
+                <label for="allocationCode" class="form-label required">Allocation Code</label>
+
+                <input id="allocationCode" type="text" class="form-control" formControlName="allocationCode" placeholder="Enter Allocation Code" />
+
+                @if(allocationForm.get('allocationCode')?.touched && allocationForm.get('allocationCode')?.invalid){
+
+                <small class="error-msg">Allocation Code is required.</small>
+
+                }
+
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <label for="employeeId" class="form-label required">Employee</label>
+
+                <select id="employeeId" class="form-control" formControlName="employeeId">
+
+                    <option [ngValue]="null" disabled>Select Employee</option>
+
+                    @for(emp of employeeList; track emp.id){
+
+                    <option [value]="emp.id">{{emp.firstName}} {{emp.lastName}} ({{emp.employeeCode}})</option>
+
+                    }
+
+                </select>
+
+                @if(allocationForm.get('employeeId')?.touched && allocationForm.get('employeeId')?.invalid){
+
+                <small class="error-msg">Employee selection is required.</small>
+
+                }
+
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <label for="assetId" class="form-label required">Asset</label>
+
+                <select id="assetId" class="form-control" formControlName="assetId">
+
+                    <option [ngValue]="null" disabled>Select Asset</option>
+
+                    @for(asset of assetList; track asset.id){
+
+                    <option [value]="asset.id">{{asset.assetName}} ({{asset.assetCode}})</option>
+
+                    }
+
+                </select>
+
+                @if(allocationForm.get('assetId')?.touched && allocationForm.get('assetId')?.invalid){
+
+                <small class="error-msg">Asset selection is required.</small>
+
+                }
+
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <label for="allocatedDate" class="form-label required">Allocated Date</label>
+
+                <input id="allocatedDate" type="date" class="form-control" formControlName="allocatedDate" />
+
+                @if(allocationForm.get('allocatedDate')?.touched && allocationForm.get('allocatedDate')?.invalid){
+
+                <small class="error-msg">Allocated Date is required.</small>
+
+                }
+
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <label for="returnDate" class="form-label">Return Date</label>
+
+                <input id="returnDate" type="date" class="form-control" formControlName="returnDate" />
+
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <label for="allocationStatus" class="form-label required">Allocation Status</label>
+
+                <select id="allocationStatus" class="form-control" formControlName="allocationStatus">
+
+                    <option value="Allocated">Allocated</option>
+
+                    <option value="Returned">Returned</option>
+
+                    <option value="Pending">Pending</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-12">
+
+                <label for="remarks" class="form-label">Remarks</label>
+
+                <textarea id="remarks" rows="3" class="form-control" formControlName="remarks" placeholder="Enter remarks..."></textarea>
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="form-check">
+
+                    <input id="isActive" type="checkbox" class="form-check-input" formControlName="isActive" />
+
+                    <label for="isActive" class="form-check-label">Is Active</label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-actions mt-4">
+
+            <button type="button" class="btn btn-secondary mr-2" (click)="goBack()">Cancel</button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="submitting">
+
+                {{ submitting ? 'Saving...' : 'Save' }}
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

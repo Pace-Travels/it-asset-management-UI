@@ -1,0 +1,111 @@
+<app-page-header title="Employee License Allocation" buttonText="Allocate License" (buttonClick)="addAllocation()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchAllocation($event)" (add)="addAllocation()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Allocation Code</th>
+
+                <th>Employee</th>
+
+                <th>Software License</th>
+
+                <th>Allocated Date</th>
+
+                <th>Revoke Date</th>
+
+                <th>Allocation Status</th>
+
+                <th>Remarks</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(item of tableData; track item.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{item.allocationCode}}</td>
+
+                <td>{{item.employee?.firstName}} {{item.employee?.lastName}} ({{item.employee?.employeeCode}})</td>
+
+                <td>{{item.softwareLicense?.softwareName}} ({{item.softwareLicense?.licenseCode}})</td>
+
+                <td>{{item.allocatedDate | date:'mediumDate'}}</td>
+
+                <td>{{item.revokeDate ? (item.revokeDate | date:'mediumDate') : '-'}}</td>
+
+                <td>{{item.allocationStatus}}</td>
+
+                <td>{{item.remarks || '-'}}</td>
+
+                <td>
+                    <span [class]="item.isActive ? 'badge success' : 'badge danger'">
+                        {{item.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editAllocation(item.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(item)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete License Allocation'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedAllocation?.allocationCode"
+    [itemCode]="selectedAllocation?.allocationStatus" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteAllocation()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

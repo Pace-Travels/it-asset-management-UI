@@ -113,6 +113,15 @@ export const routes: Routes = [
         path:'server-managment', loadChildren: () => import('./pages/master/serverManagement/serverManagement.routes').then((m) => m.SERVEMANAGEMENT_ROUTES),
       },
       {
+        path:'domain-website', loadChildren: () => import('./pages/master/domainWebsiteManagement/domainWebsiteManagement.routes').then((m) => m.DOMAIN_WEB_MANG),
+      },
+      {
+        path:'software-license-management', loadChildren: () => import('./pages/master/softwareLincenseManagement/softwareLincenseManagement.routes').then((m) => m.SOFT_LINCENSE_MANG),
+      },
+      {
+        path:'employee-asset-allocation', loadChildren: () => import('./pages/master/employeeAssetAllocation/employeeAssetAllocation.routes').then((m) => m.EMPLOYEE_ASSET_ALLOCATION),
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {
