@@ -128,6 +128,9 @@ export const routes: Routes = [
         path:'email-account-management', loadChildren: () => import('./pages/master/emailAccountManagement/emailAccountManagement .routes').then((m) => m.EMAIL_ACC_MANG)
       },
       {
+        path:'subscription', loadChildren: () => import('./pages/master/subscription/subscription.routes').then((m) => m.SUBSCRIPTION),
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

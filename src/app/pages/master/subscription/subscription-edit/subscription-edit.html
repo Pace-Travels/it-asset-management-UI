@@ -1,0 +1,192 @@
+<app-page-header title="Edit Subscription" subtitle="Update Subscription Details" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="subscriptionForm">
+
+        <!-- Subscription Overview -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Subscription Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Subscription Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="subscriptionCode">
+                    <app-validation-message [control]="subscriptionForm.controls['subscriptionCode']" label="Subscription Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Vendor
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="vendorId">
+                        <option [ngValue]="null">Select Vendor</option>
+                        <option *ngFor="let vendor of vendors" [value]="vendor.id">
+                            {{ vendor.vendorName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['vendorId']" label="Vendor">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Amount
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" step="0.01" formControlName="amount">
+                    <app-validation-message [control]="subscriptionForm.controls['amount']" label="Amount">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Payment Method
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="paymentMethodId">
+                        <option [ngValue]="null">Select Payment Method</option>
+                        <option *ngFor="let pm of paymentMethods" [value]="pm.id">
+                            {{ pm.methodName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['paymentMethodId']" label="Payment Method">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Payment Initiated By
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="paymentInitiatedById">
+                        <option [ngValue]="null">Select Employee</option>
+                        <option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.firstName }} {{ emp.lastName }} ({{ emp.employeeCode }})
+                        </option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['paymentInitiatedById']" label="Payment Initiated By">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Description
+                        <span class="required">*</span>
+                    </label>
+                    <textarea formControlName="description" rows="3"></textarea>
+                    <app-validation-message [control]="subscriptionForm.controls['description']" label="Description">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Schedule & Reminder Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Dates & Reminder Settings
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Expected Payment Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="expectedPaymentDate">
+                    <app-validation-message [control]="subscriptionForm.controls['expectedPaymentDate']" label="Expected Payment Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Payment Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="paymentDate">
+                    <app-validation-message [control]="subscriptionForm.controls['paymentDate']" label="Payment Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Expiry Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="expiryDate">
+                    <app-validation-message [control]="subscriptionForm.controls['expiryDate']" label="Expiry Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Reminder Type
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="reminderTypeId">
+                        <option [ngValue]="null">Select Reminder Type</option>
+                        <option *ngFor="let rt of reminderTypes" [value]="rt.id">
+                            {{ rt.typeName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['reminderTypeId']" label="Reminder Type">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Reminder Sent To (Emails/Contacts)
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="reminderSentTo">
+                    <app-validation-message [control]="subscriptionForm.controls['reminderSentTo']" label="Reminder Sent To">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="subscriptionForm.invalid" (click)="update()">
+                Update Subscription
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
