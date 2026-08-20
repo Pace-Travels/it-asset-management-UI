@@ -1,0 +1,111 @@
+<app-page-header title="SSL Certificate Management" buttonText="Add SSL Certificate" (buttonClick)="addSSL()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchSSL($event)" (add)="addSSL()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>SSL Code</th>
+
+                <th>Domain</th>
+
+                <th>Provider</th>
+
+                <th>Certificate Type</th>
+
+                <th>Purchase Date</th>
+
+                <th>Expiry Date</th>
+
+                <th>Status</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(ssl of tableData; track ssl.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{ssl.sslCode}}</td>
+
+                <td>{{ssl.domain?.domainName || '-'}}</td>
+
+                <td>{{ssl.certificateProvider}}</td>
+
+                <td>{{ssl.certificateType}}</td>
+
+                <td>{{ssl.purchaseDate | date:'mediumDate'}}</td>
+
+                <td>{{ssl.expiryDate | date:'mediumDate'}}</td>
+
+                <td>{{ssl.status?.statusName || '-'}}</td>
+
+                <td>
+                    <span [class]="ssl.isActive ? 'badge success' : 'badge danger'">
+                        {{ssl.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editSSL(ssl.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(ssl)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete SSL Certificate'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedSSL?.certificateProvider"
+    [itemCode]="selectedSSL?.sslCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteSSL()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

@@ -122,6 +122,9 @@ export const routes: Routes = [
         path:'employee-asset-allocation', loadChildren: () => import('./pages/master/employeeAssetAllocation/employeeAssetAllocation.routes').then((m) => m.EMPLOYEE_ASSET_ALLOCATION),
       },
       {
+        path:'ssl-certificate-management', loadChildren: () => import('./pages/master/SSLCertificateManagement/sslCertificateManagement.routes').then((m) => m.SSL_CERTI_MANG),
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

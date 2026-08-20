@@ -1,0 +1,170 @@
+<app-page-header title="Add SSL Certificate" subtitle="Add New SSL Certificate Information" [showButton]="false"
+    [showBackButton]="true" (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="sslForm">
+
+        <!-- General Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                SSL Certificate Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        SSL Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="sslCode">
+                    <app-validation-message [control]="sslForm.controls['sslCode']" label="SSL Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Domain
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="domainId">
+                        <option [ngValue]="null">Select Domain</option>
+                        <option *ngFor="let domain of domains" [value]="domain.id">
+                            {{ domain.domainName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="sslForm.controls['domainId']" label="Domain">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Certificate Provider
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="certificateProvider">
+                    <app-validation-message [control]="sslForm.controls['certificateProvider']"
+                        label="Certificate Provider">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Certificate Type
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="certificateType">
+                    <app-validation-message [control]="sslForm.controls['certificateType']" label="Certificate Type">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Status
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="statusId">
+                        <option [ngValue]="null">Select Status</option>
+                        <option *ngFor="let st of statuses" [value]="st.id">
+                            {{ st.statusName }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="sslForm.controls['statusId']" label="Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="sslForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Dates & Renewal Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Dates & Renewal Information
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Purchase Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="purchaseDate">
+                    <app-validation-message [control]="sslForm.controls['purchaseDate']" label="Purchase Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Expiry Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="expiryDate">
+                    <app-validation-message [control]="sslForm.controls['expiryDate']" label="Expiry Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Renewal Date
+                    </label>
+                    <input type="date" formControlName="renewalDate">
+                    <app-validation-message [control]="sslForm.controls['renewalDate']" label="Renewal Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Renewal Cost
+                    </label>
+                    <input type="number" step="0.01" formControlName="renewalCost">
+                    <app-validation-message [control]="sslForm.controls['renewalCost']" label="Renewal Cost">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <input type="text" formControlName="remarks">
+                    <app-validation-message [control]="sslForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="sslForm.invalid" (click)="save()">
+                Save SSL Certificate
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
