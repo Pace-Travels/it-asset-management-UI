@@ -1,0 +1,116 @@
+<app-page-header title="Edit Cloud Subscription" subtitle="Update Cloud Subscription Details" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="subscriptionForm">
+
+        <!-- Subscription Information -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Subscription Information
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Subscription Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="subscriptionCode" placeholder="e.g. SUB-001">
+                    <app-validation-message [control]="subscriptionForm.controls['subscriptionCode']" label="Subscription Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Service Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="serviceName" placeholder="e.g. AWS EC2 / Azure App Service">
+                    <app-validation-message [control]="subscriptionForm.controls['serviceName']" label="Service Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Subscription Type
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="subscriptionType" placeholder="e.g. Monthly / Yearly">
+                    <app-validation-message [control]="subscriptionForm.controls['subscriptionType']" label="Subscription Type">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Renewal Date
+                    </label>
+                    <input type="date" formControlName="renewalDate">
+                    <app-validation-message [control]="subscriptionForm.controls['renewalDate']" label="Renewal Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Monthly / Yearly Cost
+                    </label>
+                    <input type="number" formControlName="monthlyYearlyCost" step="0.01" min="0" placeholder="0.00">
+                    <app-validation-message [control]="subscriptionForm.controls['monthlyYearlyCost']" label="Cost">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Account Owner
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="accountOwner" placeholder="e.g. John Doe">
+                    <app-validation-message [control]="subscriptionForm.controls['accountOwner']" label="Account Owner">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="subscriptionForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <textarea formControlName="remarks" rows="3" placeholder="Enter remarks..."></textarea>
+                    <app-validation-message [control]="subscriptionForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="subscriptionForm.invalid" (click)="update()">
+                Update Subscription
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

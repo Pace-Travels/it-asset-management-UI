@@ -131,6 +131,15 @@ export const routes: Routes = [
         path:'subscription', loadChildren: () => import('./pages/master/subscription/subscription.routes').then((m) => m.SUBSCRIPTION),
       },
       {
+        path:'menus', loadChildren: () => import('./pages/master/menus/menus.routes').then((m) => m.MENU_ROUTES),
+      },
+      {
+        path:'cloud-subscription-management', loadChildren: () => import('./pages/master/cloudSubscriptionManagement/cloudSubscriptionManagement.routes').then((m) => m.CLOUD_SUBCRI_MANG_ROUTES),
+      },
+      {
+        path:'mobile-recharge-management', loadChildren: () => import('./pages/master/mobileRechargeManagement/mobileRechargeManagement.routes').then((m) => m.MOBILE_RECHARGE_MANG_ROUTES),
+      },
+      {
         path:'access-denied', component:AccessDenied
       },
       {

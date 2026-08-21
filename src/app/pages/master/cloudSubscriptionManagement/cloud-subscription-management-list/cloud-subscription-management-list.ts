@@ -7,28 +7,28 @@ import { TableToolbar } from '../../../shared/components/table-toolbar/table-too
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
-import { EmployeeAssetAllocationService } from '../../../../core/services/master/employee-asset-allocation.service';
+import { CloudSubscriptionManagementServices } from '../../../../core/services/master/cloud-subscription-management.services';
 
 @Component({
-  selector: 'app-employee-software-license-allocation-list',
+  selector: 'app-cloud-subscription-management-list',
   imports: [CommonModule, EmptyState, TableToolbar, ConfirmationDialog, Pagination, PageHeader],
-  templateUrl: './employee-asset-allocation-list.html',
-  styleUrl: './employee-asset-allocation-list.scss',
+  templateUrl: './cloud-subscription-management-list.html',
+  styleUrl: './cloud-subscription-management-list.scss',
 })
-export class EmployeeAssetAllocationList implements OnInit {
+export class CloudSubscriptionManagementList implements OnInit {
 
   constructor(
     private router: Router,
-    private allocationService: EmployeeAssetAllocationService,
+    private subscriptionService: CloudSubscriptionManagementServices,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.getAllocationList();
+    this.getSubscriptionList();
   }
 
-  getAllocationList(): void {
+  getSubscriptionList(): void {
     this.loading = true;
 
     const payload = {
@@ -37,7 +37,7 @@ export class EmployeeAssetAllocationList implements OnInit {
       search: this.search
     };
 
-    this.allocationService
+    this.subscriptionService
       .getList(payload)
       .subscribe({
         next: (response) => {
@@ -58,43 +58,43 @@ export class EmployeeAssetAllocationList implements OnInit {
       });
   }
 
-  searchAllocation(value: string): void {
+  searchSubscription(value: string): void {
     this.search = value.trim();
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getSubscriptionList();
   }
 
-  addAllocation(): void {
-    this.router.navigate(['/employee-software-license-allocation/add']);
+  addSubscription(): void {
+    this.router.navigate(['/cloud-subscription-management/add']);
   }
 
-  editAllocation(id: number): void {
-    this.router.navigate(['/employee-software-license-allocation/update', id]);
+  editSubscription(id: number): void {
+    this.router.navigate(['/cloud-subscription-management/update', id]);
   }
 
   showDeleteDialog = false;
-  selectedAllocation: any = null;
+  selectedSubscription: any = null;
   isDeleting = false;
 
-  openDeleteDialog(allocation: any): void {
-    this.selectedAllocation = allocation;
+  openDeleteDialog(subscription: any): void {
+    this.selectedSubscription = subscription;
     this.showDeleteDialog = true;
   }
 
   closeDeleteDialog(): void {
     this.showDeleteDialog = false;
-    this.selectedAllocation = null;
+    this.selectedSubscription = null;
   }
 
-  deleteAllocation(): void {
-    if (!this.selectedAllocation) {
+  deleteSubscription(): void {
+    if (!this.selectedSubscription) {
       return;
     }
 
     this.isDeleting = true;
 
-    this.allocationService
-      .delete(this.selectedAllocation.id)
+    this.subscriptionService
+      .delete(this.selectedSubscription.id)
       .subscribe({
         next: (response) => {
           this.isDeleting = false;
@@ -108,7 +108,7 @@ export class EmployeeAssetAllocationList implements OnInit {
               detail: response.message
             });
 
-            this.getAllocationList();
+            this.getSubscriptionList();
           } else {
             this.messageService.add({
               severity: 'error',
@@ -145,13 +145,13 @@ export class EmployeeAssetAllocationList implements OnInit {
     }
 
     this.pageNumber = page;
-    this.getAllocationList();
+    this.getSubscriptionList();
   }
 
   onPageSizeChange(size: number): void {
     this.pageSize = size;
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getSubscriptionList();
   }
 
 }

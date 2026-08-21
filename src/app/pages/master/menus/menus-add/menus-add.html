@@ -1,0 +1,111 @@
+<app-page-header title="Add Menu" subtitle="Add New Navigation Menu Item" [showButton]="false" [showBackButton]="true"
+    (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="menuForm">
+
+        <!-- Menu Information -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Menu Information
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Menu Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="name">
+                    <app-validation-message [control]="menuForm.controls['name']" label="Menu Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Parent Menu
+                    </label>
+                    <select formControlName="parentId">
+                        <option [ngValue]="null">None (Root Menu)</option>
+                        <option *ngFor="let parent of parentMenus" [value]="parent.id">
+                            {{ parent.name }}
+                        </option>
+                    </select>
+                    <app-validation-message [control]="menuForm.controls['parentId']" label="Parent Menu">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Route
+                    </label>
+                    <input type="text" formControlName="route" placeholder="e.g. /dashboard">
+                    <app-validation-message [control]="menuForm.controls['route']" label="Route">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Icon Class
+                    </label>
+                    <input type="text" formControlName="icon" placeholder="e.g. pi pi-home">
+                    <app-validation-message [control]="menuForm.controls['icon']" label="Icon Class">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Level
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="level" min="1">
+                    <app-validation-message [control]="menuForm.controls['level']" label="Level">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Sort Order
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="sortOrder" min="0">
+                    <app-validation-message [control]="menuForm.controls['sortOrder']" label="Sort Order">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="menuForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="menuForm.invalid" (click)="save()">
+                Save Menu
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

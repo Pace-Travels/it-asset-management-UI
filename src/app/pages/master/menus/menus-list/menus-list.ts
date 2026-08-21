@@ -7,28 +7,28 @@ import { TableToolbar } from '../../../shared/components/table-toolbar/table-too
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
-import { EmployeeAssetAllocationService } from '../../../../core/services/master/employee-asset-allocation.service';
+import { MenusServices } from '../../../../core/services/master/menus.services';
 
 @Component({
-  selector: 'app-employee-software-license-allocation-list',
+  selector: 'app-menu-list',
   imports: [CommonModule, EmptyState, TableToolbar, ConfirmationDialog, Pagination, PageHeader],
-  templateUrl: './employee-asset-allocation-list.html',
-  styleUrl: './employee-asset-allocation-list.scss',
+  templateUrl: './menus-list.html',
+  styleUrl: './menus-list.scss',
 })
-export class EmployeeAssetAllocationList implements OnInit {
+export class MenusList implements OnInit {
 
   constructor(
     private router: Router,
-    private allocationService: EmployeeAssetAllocationService,
+    private menuService: MenusServices,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.getAllocationList();
+    this.getMenuList();
   }
 
-  getAllocationList(): void {
+  getMenuList(): void {
     this.loading = true;
 
     const payload = {
@@ -37,7 +37,7 @@ export class EmployeeAssetAllocationList implements OnInit {
       search: this.search
     };
 
-    this.allocationService
+    this.menuService
       .getList(payload)
       .subscribe({
         next: (response) => {
@@ -58,43 +58,43 @@ export class EmployeeAssetAllocationList implements OnInit {
       });
   }
 
-  searchAllocation(value: string): void {
+  searchMenu(value: string): void {
     this.search = value.trim();
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getMenuList();
   }
 
-  addAllocation(): void {
-    this.router.navigate(['/employee-software-license-allocation/add']);
+  addMenu(): void {
+    this.router.navigate(['/menu/add']);
   }
 
-  editAllocation(id: number): void {
-    this.router.navigate(['/employee-software-license-allocation/update', id]);
+  editMenu(id: number): void {
+    this.router.navigate(['/menu/update', id]);
   }
 
   showDeleteDialog = false;
-  selectedAllocation: any = null;
+  selectedMenu: any = null;
   isDeleting = false;
 
-  openDeleteDialog(allocation: any): void {
-    this.selectedAllocation = allocation;
+  openDeleteDialog(menu: any): void {
+    this.selectedMenu = menu;
     this.showDeleteDialog = true;
   }
 
   closeDeleteDialog(): void {
     this.showDeleteDialog = false;
-    this.selectedAllocation = null;
+    this.selectedMenu = null;
   }
 
-  deleteAllocation(): void {
-    if (!this.selectedAllocation) {
+  deleteMenu(): void {
+    if (!this.selectedMenu) {
       return;
     }
 
     this.isDeleting = true;
 
-    this.allocationService
-      .delete(this.selectedAllocation.id)
+    this.menuService
+      .delete(this.selectedMenu.id)
       .subscribe({
         next: (response) => {
           this.isDeleting = false;
@@ -108,7 +108,7 @@ export class EmployeeAssetAllocationList implements OnInit {
               detail: response.message
             });
 
-            this.getAllocationList();
+            this.getMenuList();
           } else {
             this.messageService.add({
               severity: 'error',
@@ -145,13 +145,13 @@ export class EmployeeAssetAllocationList implements OnInit {
     }
 
     this.pageNumber = page;
-    this.getAllocationList();
+    this.getMenuList();
   }
 
   onPageSizeChange(size: number): void {
     this.pageSize = size;
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getMenuList();
   }
 
 }

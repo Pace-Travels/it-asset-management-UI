@@ -1,0 +1,119 @@
+<app-page-header title="Mobile Recharge Management" buttonText="Add Recharge" (buttonClick)="addRecharge()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchRecharge($event)" (add)="addRecharge()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Recharge Code</th>
+
+                <th>Mobile Number</th>
+
+                <th>Assigned Employee</th>
+
+                <th>Service Provider</th>
+
+                <th>Amount</th>
+
+                <th>Recharge Date</th>
+
+                <th>Validity</th>
+
+                <th>Next Recharge Date</th>
+
+                <th>Status</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(recharge of tableData; track recharge.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{recharge.mobileRechargeCode}}</td>
+
+                <td>{{recharge.mobileNumber}}</td>
+
+                <td>{{recharge.assignedEmployee}}</td>
+
+                <td>{{recharge.serviceProvider}}</td>
+
+                <td>{{recharge.rechargeAmount | currency}}</td>
+
+                <td>{{recharge.rechargeDate | date:'dd/MM/yyyy'}}</td>
+
+                <td>{{recharge.validityPeriod}}</td>
+
+                <td>{{recharge.nextRechargeDate | date:'dd/MM/yyyy'}}</td>
+
+                <td>{{recharge.status?.name || recharge.statusId}}</td>
+
+                <td>
+                    <span [class]="recharge.isActive ? 'badge success' : 'badge danger'">
+                        {{recharge.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editRecharge(recharge.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(recharge)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Mobile Recharge'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedRecharge?.mobileNumber"
+    [itemCode]="selectedRecharge?.mobileRechargeCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteRecharge()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

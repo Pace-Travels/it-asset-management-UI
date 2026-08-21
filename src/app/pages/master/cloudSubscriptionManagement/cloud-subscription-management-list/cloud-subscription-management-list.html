@@ -1,0 +1,111 @@
+<app-page-header title="Cloud Subscription Management" buttonText="Add Subscription" (buttonClick)="addSubscription()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchSubscription($event)" (add)="addSubscription()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Subscription Code</th>
+
+                <th>Service Name</th>
+
+                <th>Subscription Type</th>
+
+                <th>Renewal Date</th>
+
+                <th>Cost</th>
+
+                <th>Account Owner</th>
+
+                <th>Remarks</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(subscription of tableData; track subscription.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{subscription.subscriptionCode}}</td>
+
+                <td>{{subscription.serviceName}}</td>
+
+                <td>{{subscription.subscriptionType}}</td>
+
+                <td>{{subscription.renewalDate ? (subscription.renewalDate | date:'dd/MM/yyyy') : '-'}}</td>
+
+                <td>{{subscription.monthlyYearlyCost ? (subscription.monthlyYearlyCost | currency) : '-'}}</td>
+
+                <td>{{subscription.accountOwner}}</td>
+
+                <td>{{subscription.remarks || '-'}}</td>
+
+                <td>
+                    <span [class]="subscription.isActive ? 'badge success' : 'badge danger'">
+                        {{subscription.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editSubscription(subscription.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(subscription)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Subscription'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedSubscription?.serviceName"
+    [itemCode]="selectedSubscription?.subscriptionCode" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteSubscription()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

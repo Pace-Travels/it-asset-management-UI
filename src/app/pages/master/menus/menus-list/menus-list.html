@@ -1,0 +1,117 @@
+<app-page-header title="Menu Management" buttonText="Add Menu" (buttonClick)="addMenu()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchMenu($event)" (add)="addMenu()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Menu Name</th>
+
+                <th>Parent Menu</th>
+
+                <th>Route</th>
+
+                <th>Icon</th>
+
+                <th>Level</th>
+
+                <th>Sort Order</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(menu of tableData; track menu.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{menu.name}}</td>
+
+                <td>{{menu.parentMenu?.name || 'Root (No Parent)'}}</td>
+
+                <td>{{menu.route || '-'}}</td>
+
+                <td>
+                    @if(menu.icon){
+
+                    <i [class]="menu.icon"></i> {{menu.icon}}
+
+                    } @else {
+
+                    -
+
+                    }
+                </td>
+
+                <td>{{menu.level}}</td>
+
+                <td>{{menu.sortOrder}}</td>
+
+                <td>
+                    <span [class]="menu.isActive ? 'badge success' : 'badge danger'">
+                        {{menu.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editMenu(menu.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(menu)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Menu'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedMenu?.name"
+    [itemCode]="selectedMenu?.route" [loading]="isDeleting" [confirmButtonText]="'Delete'"
+    (confirm)="deleteMenu()" (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

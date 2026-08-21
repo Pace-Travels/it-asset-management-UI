@@ -5,8 +5,6 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
 import { EmployeeAssetAllocationService } from '../../../../core/services/master/employee-asset-allocation.service';
-import { EmployeeDetailsService } from '../../../../core/services/master/employee-details.service';
-import { AssetInformationService } from '../../../../core/services/master/asset-information.service';
 
 @Component({
   selector: 'app-employee-asset-allocation-add',
@@ -26,8 +24,8 @@ export class EmployeeAssetAllocationAdd implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private allocationService: EmployeeAssetAllocationService,
-    private employeeService: EmployeeDetailsService,
-    private assetService: AssetInformationService,
+    // private employeeService: EmployeeDetailsService,
+    // private assetService: AssetInformationService,
     private messageService: MessageService
   ) { }
 
@@ -50,13 +48,13 @@ export class EmployeeAssetAllocationAdd implements OnInit {
   }
 
   getDropdownData(): void {
-    this.employeeService.getDropdownList().subscribe({
-      next: (res) => { if (res.success) this.employeeList = res.data; }
-    });
+    // this.employeeService.getDropdownList().subscribe({
+    //   next: (res) => { if (res.success) this.employeeList = res.data; }
+    // });
 
-    this.assetService.getDropdownList().subscribe({
-      next: (res) => { if (res.success) this.assetList = res.data; }
-    });
+    // this.assetService.getDropdownList().subscribe({
+    //   next: (res) => { if (res.success) this.assetList = res.data; }
+    // });
   }
 
   onSubmit(): void {

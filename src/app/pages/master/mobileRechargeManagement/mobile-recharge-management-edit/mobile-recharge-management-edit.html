@@ -1,0 +1,157 @@
+<app-page-header title="Edit Mobile Recharge" subtitle="Update Mobile Recharge Details" [showButton]="false"
+    [showBackButton]="true" (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="rechargeForm">
+
+        <!-- Mobile Recharge Information -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Mobile Recharge Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Recharge Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="mobileRechargeCode" placeholder="e.g. MRC-001">
+                    <app-validation-message [control]="rechargeForm.controls['mobileRechargeCode']"
+                        label="Recharge Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Mobile Number
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="mobileNumber" placeholder="e.g. +91 9876543210">
+                    <app-validation-message [control]="rechargeForm.controls['mobileNumber']" label="Mobile Number">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Assigned Employee
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="assignedEmployee" placeholder="e.g. John Doe">
+                    <app-validation-message [control]="rechargeForm.controls['assignedEmployee']"
+                        label="Assigned Employee">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Service Provider
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="serviceProvider" placeholder="e.g. Airtel / Jio">
+                    <app-validation-message [control]="rechargeForm.controls['serviceProvider']"
+                        label="Service Provider">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Recharge Amount
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="rechargeAmount" step="0.01" min="0" placeholder="0.00">
+                    <app-validation-message [control]="rechargeForm.controls['rechargeAmount']" label="Recharge Amount">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Validity Period
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="validityPeriod" placeholder="e.g. 28 Days / 84 Days">
+                    <app-validation-message [control]="rechargeForm.controls['validityPeriod']" label="Validity Period">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Recharge Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="rechargeDate">
+                    <app-validation-message [control]="rechargeForm.controls['rechargeDate']" label="Recharge Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Next Recharge Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="nextRechargeDate">
+                    <app-validation-message [control]="rechargeForm.controls['nextRechargeDate']"
+                        label="Next Recharge Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Status
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="statusId">
+                        <option [ngValue]="null" disabled>Select Status</option>
+                        @for(status of statusList; track status.id){
+                        <option [ngValue]="status.id">{{status.name}}</option>
+                        }
+                    </select>
+                    <app-validation-message [control]="rechargeForm.controls['statusId']" label="Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="rechargeForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <textarea formControlName="remarks" rows="3" placeholder="Enter remarks..."></textarea>
+                    <app-validation-message [control]="rechargeForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="rechargeForm.invalid" (click)="update()">
+                Update Recharge
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

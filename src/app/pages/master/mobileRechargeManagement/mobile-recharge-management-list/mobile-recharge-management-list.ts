@@ -7,28 +7,28 @@ import { TableToolbar } from '../../../shared/components/table-toolbar/table-too
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
-import { EmployeeAssetAllocationService } from '../../../../core/services/master/employee-asset-allocation.service';
+import { MobileRechargeManagementServices } from '../../../../core/services/master/mobile-recharge-management.services';
 
 @Component({
-  selector: 'app-employee-software-license-allocation-list',
+  selector: 'app-mobile-recharge-management-list',
   imports: [CommonModule, EmptyState, TableToolbar, ConfirmationDialog, Pagination, PageHeader],
-  templateUrl: './employee-asset-allocation-list.html',
-  styleUrl: './employee-asset-allocation-list.scss',
+  templateUrl: './mobile-recharge-management-list.html',
+  styleUrl: './mobile-recharge-management-list.scss',
 })
-export class EmployeeAssetAllocationList implements OnInit {
+export class MobileRechargeManagementList implements OnInit {
 
   constructor(
     private router: Router,
-    private allocationService: EmployeeAssetAllocationService,
+    private mobileRechargeService: MobileRechargeManagementServices,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.getAllocationList();
+    this.getRechargeList();
   }
 
-  getAllocationList(): void {
+  getRechargeList(): void {
     this.loading = true;
 
     const payload = {
@@ -37,7 +37,7 @@ export class EmployeeAssetAllocationList implements OnInit {
       search: this.search
     };
 
-    this.allocationService
+    this.mobileRechargeService
       .getList(payload)
       .subscribe({
         next: (response) => {
@@ -58,43 +58,43 @@ export class EmployeeAssetAllocationList implements OnInit {
       });
   }
 
-  searchAllocation(value: string): void {
+  searchRecharge(value: string): void {
     this.search = value.trim();
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getRechargeList();
   }
 
-  addAllocation(): void {
-    this.router.navigate(['/employee-software-license-allocation/add']);
+  addRecharge(): void {
+    this.router.navigate(['/mobile-recharge-management/add']);
   }
 
-  editAllocation(id: number): void {
-    this.router.navigate(['/employee-software-license-allocation/update', id]);
+  editRecharge(id: number): void {
+    this.router.navigate(['/mobile-recharge-management/update', id]);
   }
 
   showDeleteDialog = false;
-  selectedAllocation: any = null;
+  selectedRecharge: any = null;
   isDeleting = false;
 
-  openDeleteDialog(allocation: any): void {
-    this.selectedAllocation = allocation;
+  openDeleteDialog(recharge: any): void {
+    this.selectedRecharge = recharge;
     this.showDeleteDialog = true;
   }
 
   closeDeleteDialog(): void {
     this.showDeleteDialog = false;
-    this.selectedAllocation = null;
+    this.selectedRecharge = null;
   }
 
-  deleteAllocation(): void {
-    if (!this.selectedAllocation) {
+  deleteRecharge(): void {
+    if (!this.selectedRecharge) {
       return;
     }
 
     this.isDeleting = true;
 
-    this.allocationService
-      .delete(this.selectedAllocation.id)
+    this.mobileRechargeService
+      .delete(this.selectedRecharge.id)
       .subscribe({
         next: (response) => {
           this.isDeleting = false;
@@ -108,7 +108,7 @@ export class EmployeeAssetAllocationList implements OnInit {
               detail: response.message
             });
 
-            this.getAllocationList();
+            this.getRechargeList();
           } else {
             this.messageService.add({
               severity: 'error',
@@ -145,13 +145,13 @@ export class EmployeeAssetAllocationList implements OnInit {
     }
 
     this.pageNumber = page;
-    this.getAllocationList();
+    this.getRechargeList();
   }
 
   onPageSizeChange(size: number): void {
     this.pageSize = size;
     this.pageNumber = 1;
-    this.getAllocationList();
+    this.getRechargeList();
   }
 
 }

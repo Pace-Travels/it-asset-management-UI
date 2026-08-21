@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
 import { MessageService } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
+    private http : HttpClient
   ) {
 
     this.loginForm = this.fb.group({
@@ -88,7 +90,7 @@ export class LoginComponent {
         this.isLoading = false;
 
         if (response.success) {
-
+          
           this.messageService.add({
 
             severity: 'success',
