@@ -1,0 +1,136 @@
+<app-page-header title="Edit Monitoring Maintenance" subtitle="Update Maintenance Details" [showButton]="false"
+    [showBackButton]="true" (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="maintenanceForm">
+
+        <!-- Maintenance Information -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Monitoring Maintenance Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Maintenance Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="maintenanceCode" placeholder="e.g. MAINT-001">
+                    <app-validation-message [control]="maintenanceForm.controls['maintenanceCode']" label="Maintenance Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server ID
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="serverId" placeholder="Enter Server ID">
+                    <app-validation-message [control]="maintenanceForm.controls['serverId']" label="Server ID">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Maintenance Schedule
+                        <span class="required">*</span>
+                    </label>
+                    <input type="datetime-local" formControlName="maintenanceSchedule">
+                    <app-validation-message [control]="maintenanceForm.controls['maintenanceSchedule']" label="Maintenance Schedule">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Backup Schedule
+                        <span class="required">*</span>
+                    </label>
+                    <input type="datetime-local" formControlName="backupSchedule">
+                    <app-validation-message [control]="maintenanceForm.controls['backupSchedule']" label="Backup Schedule">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Backup Status ID
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="backupStatusId" placeholder="Enter Backup Status ID">
+                    <app-validation-message [control]="maintenanceForm.controls['backupStatusId']" label="Backup Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Server Health Status ID
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" formControlName="serverHealthStatusId" placeholder="Enter Health Status ID">
+                    <app-validation-message [control]="maintenanceForm.controls['serverHealthStatusId']" label="Server Health Status">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Uptime Percentage (%)
+                    </label>
+                    <input type="number" step="0.01" min="0" max="100" formControlName="uptimePercentage" placeholder="e.g. 99.95">
+                    <app-validation-message [control]="maintenanceForm.controls['uptimePercentage']" label="Uptime Percentage">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="maintenanceForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Maintenance History
+                    </label>
+                    <textarea formControlName="maintenanceHistory" rows="3" placeholder="Enter history details..."></textarea>
+                    <app-validation-message [control]="maintenanceForm.controls['maintenanceHistory']" label="Maintenance History">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Remarks
+                    </label>
+                    <textarea formControlName="remarks" rows="3" placeholder="Enter remarks..."></textarea>
+                    <app-validation-message [control]="maintenanceForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="maintenanceForm.invalid" (click)="update()">
+                Update Maintenance
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

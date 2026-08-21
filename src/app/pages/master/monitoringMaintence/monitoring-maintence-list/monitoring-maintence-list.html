@@ -1,0 +1,111 @@
+<app-page-header title="Monitoring Maintenance" buttonText="Add Maintenance" (buttonClick)="addMaintenance()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchMaintenance($event)" (add)="addMaintenance()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Maintenance Code</th>
+
+                <th>Server ID</th>
+
+                <th>Maintenance Schedule</th>
+
+                <th>Backup Schedule</th>
+
+                <th>Backup Status</th>
+
+                <th>Health Status</th>
+
+                <th>Uptime (%)</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(item of tableData; track item.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{item.maintenanceCode}}</td>
+
+                <td>{{item.serverId}}</td>
+
+                <td>{{item.maintenanceSchedule | date:'dd/MM/yyyy HH:mm'}}</td>
+
+                <td>{{item.backupSchedule | date:'dd/MM/yyyy HH:mm'}}</td>
+
+                <td>{{item.backupStatus?.name || item.backupStatusId}}</td>
+
+                <td>{{item.serverHealthStatus?.name || item.serverHealthStatusId}}</td>
+
+                <td>{{item.uptimePercentage ? item.uptimePercentage + '%' : '-'}}</td>
+
+                <td>
+                    <span [class]="item.isActive ? 'badge success' : 'badge danger'">
+                        {{item.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editMaintenance(item.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(item)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Maintenance Record'"
+    [message]="'Are you sure you want to permanently delete'" [itemName]="selectedMaintenance?.maintenanceCode"
+    [loading]="isDeleting" [confirmButtonText]="'Delete'" (confirm)="deleteMaintenance()"
+    (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

@@ -134,10 +134,19 @@ export const routes: Routes = [
         path:'menus', loadChildren: () => import('./pages/master/menus/menus.routes').then((m) => m.MENU_ROUTES),
       },
       {
+        path:'monitoring-maintenance', loadChildren: () => import('./pages/master/monitoringMaintence/monitoringMaintence.routes').then((m) => m.MONITORING_MAINTANCE_ROUTES)
+      },
+      {
         path:'cloud-subscription-management', loadChildren: () => import('./pages/master/cloudSubscriptionManagement/cloudSubscriptionManagement.routes').then((m) => m.CLOUD_SUBCRI_MANG_ROUTES),
       },
       {
         path:'mobile-recharge-management', loadChildren: () => import('./pages/master/mobileRechargeManagement/mobileRechargeManagement.routes').then((m) => m.MOBILE_RECHARGE_MANG_ROUTES),
+      },
+      {
+        path:'role-permission', loadChildren: () => import('./pages/master/rolePermissions/rolePermissions.routes').then((m) => m.ROLE_PERMISSIONS_ROUTES),
+      },
+      {
+        path:'internet-management', loadChildren: () => import('./pages/master/internetManagement/internetManagement.routes').then((m) => m.INTERNET_MANAG_ROUTES)
       },
       {
         path:'access-denied', component:AccessDenied

@@ -1,0 +1,144 @@
+<app-page-header title="Add Internet Connection" subtitle="Manage ISP and Internet Plan Details" [showButton]="false"
+    [showBackButton]="true" (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="internetForm">
+
+        <!-- Internet Connection Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Internet Connection Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Internet Code
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="internetCode" placeholder="Enter Code (e.g. INT-001)" />
+                    <app-validation-message [control]="internetForm.controls['internetCode']" label="Internet Code">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        ISP Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="ispName" placeholder="Enter ISP Name" />
+                    <app-validation-message [control]="internetForm.controls['ispName']" label="ISP Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Connection Type
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="connectionType" placeholder="Broadband / Leased Line / Fiber" />
+                    <app-validation-message [control]="internetForm.controls['connectionType']" label="Connection Type">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Plan Name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="planName" placeholder="Enter Plan Name" />
+                    <app-validation-message [control]="internetForm.controls['planName']" label="Plan Name">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Bandwidth
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="bandwidth" placeholder="e.g. 100 Mbps / 1 Gbps" />
+                    <app-validation-message [control]="internetForm.controls['bandwidth']" label="Bandwidth">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Monthly Charges
+                        <span class="required">*</span>
+                    </label>
+                    <input type="number" step="0.01" formControlName="monthlyCharges" placeholder="0.00" />
+                    <app-validation-message [control]="internetForm.controls['monthlyCharges']" label="Monthly Charges">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Contract Start Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="contractStartDate" />
+                    <app-validation-message [control]="internetForm.controls['contractStartDate']"
+                        label="Contract Start Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Contract End Date
+                        <span class="required">*</span>
+                    </label>
+                    <input type="date" formControlName="contractEndDate" />
+                    <app-validation-message [control]="internetForm.controls['contractEndDate']"
+                        label="Contract End Date">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>Renewal Date</label>
+                    <input type="date" formControlName="renewalDate" />
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="internetForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Remarks</label>
+                    <textarea formControlName="remarks" rows="3"
+                        placeholder="Enter additional notes or remarks..."></textarea>
+                    <app-validation-message [control]="internetForm.controls['remarks']" label="Remarks">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="internetForm.invalid" (click)="save()">
+                Save
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

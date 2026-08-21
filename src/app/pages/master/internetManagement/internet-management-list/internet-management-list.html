@@ -1,0 +1,111 @@
+<app-page-header title="Internet Management" buttonText="Add Connection" (buttonClick)="addInternet()">
+</app-page-header>
+
+<app-table-toolbar (search)="searchInternet($event)" (add)="addInternet()" [enableFilter]="false"></app-table-toolbar>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Internet Code</th>
+
+                <th>ISP Name</th>
+
+                <th>Connection Type</th>
+
+                <th>Plan Name</th>
+
+                <th>Bandwidth</th>
+
+                <th>Monthly Charges</th>
+
+                <th>Contract Dates</th>
+
+                <th>State</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(item of tableData; track item.id; let i = $index){
+
+            <tr>
+
+                <td>{{i+1}}</td>
+
+                <td>{{item.internetCode}}</td>
+
+                <td>{{item.ispName}}</td>
+
+                <td>{{item.connectionType}}</td>
+
+                <td>{{item.planName}}</td>
+
+                <td>{{item.bandwidth}}</td>
+
+                <td>{{item.monthlyCharges | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                <td>{{item.contractStartDate | date:'dd/MM/yyyy'}} - {{item.contractEndDate | date:'dd/MM/yyyy'}}</td>
+
+                <td>
+                    <span [class]="item.isActive ? 'badge success' : 'badge danger'">
+                        {{item.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+
+                <td>
+
+                    <div class="table-actions">
+
+                        <button class="icon-btn warning" (click)="editInternet(item.id)">
+
+                            <i class="pi pi-pencil"></i>
+
+                        </button>
+
+                        <button type="button" class="icon-btn danger" title="Delete" (click)="openDeleteDialog(item)">
+
+                            <i class="pi pi-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    @if(tableData.length === 0){
+
+    <app-empty-state></app-empty-state>
+
+    }
+
+    <app-pagination [pageNumber]="pageNumber" [pageSize]="pageSize" [totalPages]="totalPages"
+        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+
+</div>
+
+<app-confirmation-dialog [(visible)]="showDeleteDialog" [title]="'Delete Connection'"
+    [message]="'Are you sure you want to permanently delete this internet connection record?'"
+    [loading]="isDeleting" [confirmButtonText]="'Delete'" (confirm)="deleteInternet()"
+    (cancel)="closeDeleteDialog()">
+
+</app-confirmation-dialog>

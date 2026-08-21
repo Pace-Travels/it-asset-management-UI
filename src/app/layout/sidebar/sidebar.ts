@@ -114,6 +114,7 @@ export class Sidebar implements OnInit {
     { id: 'reports', label: 'Reports', icon: 'pi pi-chart-bar', route: '/reports', permission: 'REPORT_VIEW' },
     { id: 'vendor', label: 'Vendors', icon: 'pi pi-chart-bar', route: '/vendor-management', permission: 'REPORT_VIEW' },
     { id: 'employeedetails', label: 'Employee Details', icon: 'pi pi-chart-bar', route: '/employee-details', permission: 'REPORT_VIEW' },
+    { id: 'rolepermission', label: 'Role Permission', icon: 'pi pi-chart-bar', route: '/role-permission', permission: 'REPORT_VIEW' },
     { id: 'settings', label: 'Settings', icon: 'pi pi-cog', route: '/settings', permission: 'SETTINGS_VIEW' }
 
   ];

@@ -1,0 +1,94 @@
+<app-page-header title="Add Role Permission" subtitle="Assign Menu and Permissions to Role" [showButton]="false"
+    [showBackButton]="true" (backClick)="goBack()">
+</app-page-header>
+
+<div class="card">
+
+    <form [formGroup]="rolePermissionForm">
+
+        <!-- Role Permission Details -->
+        <div class="form-section">
+
+            <h3 class="form-section-title">
+                Role Permission Details
+            </h3>
+
+            <div class="form-grid-3">
+
+                <div class="form-group">
+                    <label>
+                        Role
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="roleId">
+                        <option [ngValue]="null" disabled selected>Select Role</option>
+                        @for(role of rolesList; track role.id){
+                        <option [ngValue]="role.id">{{role.name}}</option>
+                        }
+                    </select>
+                    <app-validation-message [control]="rolePermissionForm.controls['roleId']" label="Role">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Menu
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="menuId">
+                        <option [ngValue]="null" disabled selected>Select Menu</option>
+                        @for(menu of menusList; track menu.id){
+                        <option [ngValue]="menu.id">{{menu.name}}</option>
+                        }
+                    </select>
+                    <app-validation-message [control]="rolePermissionForm.controls['menuId']" label="Menu">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Permission
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="permissionId">
+                        <option [ngValue]="null" disabled selected>Select Permission</option>
+                        @for(perm of permissionsList; track perm.id){
+                        <option [ngValue]="perm.id">{{perm.name}}</option>
+                        }
+                    </select>
+                    <app-validation-message [control]="rolePermissionForm.controls['permissionId']" label="Permission">
+                    </app-validation-message>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Is Active
+                        <span class="required">*</span>
+                    </label>
+                    <select formControlName="isActive">
+                        <option [ngValue]="true">Active</option>
+                        <option [ngValue]="false">Inactive</option>
+                    </select>
+                    <app-validation-message [control]="rolePermissionForm.controls['isActive']" label="Is Active">
+                    </app-validation-message>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+
+            <button type="button" class="secondary-btn" (click)="goBack()">
+                Cancel
+            </button>
+            <button type="submit" class="primary-btn" [disabled]="rolePermissionForm.invalid" (click)="save()">
+                Save
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
