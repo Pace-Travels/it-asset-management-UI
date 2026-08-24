@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { StorageService } from './storage.service.ts';
+import { StorageService } from './storage.service.js';
 import { HttpClient } from '@angular/common/http';
 import { env } from '../config/env.js';
 
@@ -74,76 +74,76 @@ export class AuthService {
     // Uncomment it after all master modules are completed.
     // =====================================================
 
-    if (email === 'admin' && password === 'admin123') {
+    // if (email === 'admin' && password === 'admin123') {
 
-      const response = {
+    //   const response = {
 
-        success: true,
+    //     success: true,
 
-        data: {
+    //     data: {
 
-          accessToken: 'demo-access-token',
+    //       accessToken: 'demo-access-token',
 
-          refreshToken: 'demo-refresh-token',
+    //       refreshToken: 'demo-refresh-token',
 
-          expiresIn: '15m',
+    //       expiresIn: '15m',
 
-          user: {
+    //       user: {
 
-            id: 1,
+    //         id: 1,
 
-            employeeCode: 'EMP000001',
+    //         employeeCode: 'EMP000001',
 
-            firstName: 'Super',
+    //         firstName: 'Super',
 
-            lastName: 'Admin',
+    //         lastName: 'Admin',
 
-            email: 'admin@pace.com',
+    //         email: 'admin@pace.com',
 
-            adminTypeId: 1,
+    //         adminTypeId: 1,
 
-            adminStatusId: 1
+    //         adminStatusId: 1
 
-          }
+    //       }
 
-        }
+    //     }
 
-      };
+    //   };
 
-      this.storageService.setAccessToken(
-        response.data.accessToken
-      );
+    //   this.storageService.setAccessToken(
+    //     response.data.accessToken
+    //   );
 
-      this.storageService.setRefreshToken(
-        response.data.refreshToken
-      );
+    //   this.storageService.setRefreshToken(
+    //     response.data.refreshToken
+    //   );
 
-      this.storageService.setUser(
-        response.data.user
-      );
+    //   this.storageService.setUser(
+    //     response.data.user
+    //   );
 
-      this.currentUserSubject.next(
-        response.data.user
-      );
+    //   this.currentUserSubject.next(
+    //     response.data.user
+    //   );
 
-      return of(response);
+    //   return of(response);
 
-    }
+    // }
 
-    return of({
+    // return of({
 
-      success: false,
+    //   success: false,
 
-      message: 'Invalid Username or Password'
+    //   message: 'Invalid Username or Password'
 
-    });
+    // });
 
     // =====================================================
     // PRODUCTION LOGIN
     // Uncomment after Admin module is completed.
     // =====================================================
-
-    /*
+    console.log(email)
+    console.log(password)
     return this.http.post<any>(
         `${this.baseUrl}/admin/login`,
         {
@@ -173,7 +173,6 @@ export class AuthService {
         })
   
     );
-    */
 
   }
 

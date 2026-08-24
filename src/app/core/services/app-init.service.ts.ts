@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from './auth-service';
-import { StorageService } from './storage.service.ts';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'

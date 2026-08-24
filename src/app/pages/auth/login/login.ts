@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
 import { MessageService } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { StorageService } from '../../../core/services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -22,126 +22,77 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './login.scss'
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
-
   showPassword = false;
-
   isLoading = false;
-
   errorMessage = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private messageService: MessageService,
-    private http : HttpClient
-  ) {
+  // Modern Angular Injection pattern
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private storageService = inject(StorageService); // StorageService Inject kiya
+  private router = inject(Router);
+  private messageService = inject(MessageService);
 
+  constructor() {
     this.loginForm = this.fb.group({
-
-      email: ['', [Validators.required]],
-
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
-
     });
-
   }
 
   togglePassword(): void {
-
     this.showPassword = !this.showPassword;
-
   }
 
   onSubmit(): void {
-
     if (this.loginForm.invalid) {
-
       this.loginForm.markAllAsTouched();
-
       return;
-
     }
 
     this.isLoading = true;
-
     this.errorMessage = '';
 
-    const payload = {
+    const { email, password } = this.loginForm.value;
 
-      email: this.loginForm.value.email,
-
-      password: this.loginForm.value.password
-
-    };
-
-    this.authService.login(
-
-      payload.email,
-
-      payload.password
-
-    ).subscribe({
-
-      next: (response) => {
-
+    this.authService.login(email, password).subscribe({
+      next: (response: any) => {
         this.isLoading = false;
 
         if (response.success) {
-          
+          // Tokens & User Save in SessionStorage
+          if (response.data) {
+            this.storageService.setAccessToken(response.data.accessToken);
+            this.storageService.setRefreshToken(response.data.refreshToken);
+            this.storageService.setUser(response.data.user);
+          }
+
           this.messageService.add({
-
             severity: 'success',
-
             summary: 'Success',
-
-            detail: response.message
-
+            detail: response.message || 'Login Successful'
           });
 
           this.router.navigate(['/dashboard']);
-
-        }
-
-        else {
-
-          this.errorMessage = response.message;
-
+        } else {
+          this.errorMessage = response.message || 'Login Failed';
           this.messageService.add({
-
             severity: 'error',
-
             summary: 'Login Failed',
-
-            detail: response.message
-
+            detail: this.errorMessage
           });
-
         }
-
       },
-
-      error: (error) => {
-
+      error: (error: any) => {
         this.isLoading = false;
-
         this.errorMessage = error?.error?.message || 'Login Failed';
-
         this.messageService.add({
-
           severity: 'error',
-
           summary: 'Error',
-
           detail: this.errorMessage
-
         });
-
       }
-
     });
-
   }
 }
