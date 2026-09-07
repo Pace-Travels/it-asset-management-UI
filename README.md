@@ -1,59 +1,93 @@
-# ItAssetManagementFrontend
+# IT Asset Management (ITAM) - Frontend UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+This is the frontend application for the IT Asset Management (ITAM) system, built with **Angular**. This repository contains the user interface components, views, layouts, and services required to manage and monitor IT assets, assignments, warranties, maintenance, and user permissions.
 
-## Development server
+## 🚀 Tech Stack
 
-To start a local development server, run:
+- **Framework:** Angular (v21)
+- **Styling & UI Library:** 
+  - PrimeNG (v21) - Advanced UI components (Tables, Dropdowns, Modals)
+  - PrimeFlex - CSS Utility library for responsive grids
+  - PrimeIcons - Icon pack
+  - SCSS - Custom styling and theme overrides
+- **Charting & Data Visualization:** 
+  - Chart.js
+  - ApexCharts (`ng-apexcharts`)
+- **Real-time Communication:** Socket.io-client
+- **Exports & Reporting:**
+  - `jspdf` & `jspdf-autotable` (PDF Generation)
+  - `xlsx` & `file-saver` (Excel Export)
+- **Other Utilities:** SweetAlert2 (Alerts), Lodash, Vitest (Testing)
 
-```bash
-ng serve
+---
+
+## 📂 Project Structure
+
+The source code (`src/`) is organized to promote reusability and clean separation of concerns:
+
+```
+src/
+└── app/
+    ├── core/                # Core configurations, HTTP interceptors, services, and models
+    │   ├── config/          # Environment configuration (env.ts generated dynamically)
+    │   └── services/        # Singleton services (AuthService, DashboardService, Storage, Socket, Toast)
+    │
+    ├── layout/              # Structural components of the application
+    │   ├── header/          # Top navigation bar (Profile, Notifications)
+    │   ├── sidebar/         # Side navigation menu
+    │   ├── main-layout/     # Wrapper layout for authenticated views
+    │   ├── footer/          # Application footer
+    │   └── breadcrumb/      # Breadcrumb navigation
+    │
+    └── pages/               # Feature modules and views
+        ├── auth/            # Authentication pages (Login, Forgot Password)
+        ├── shared/          # Shared views like the main Dashboard
+        └── ...              # Other entity modules (Asset Info, Master Data, Vendors, Servers, etc.)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🛠️ Installation & Setup
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Clone the repository and install dependencies:**
+   ```bash
+   npm install
+   ```
 
-```bash
-ng generate component component-name
-```
+2. **Environment Variables (.env):**
+   The project uses a custom Node script (`scripts/set-env.js`) to inject environment variables into Angular.
+   Create a `.env` file in the root of this project:
+   ```env
+   APP_NAME=IT Asset Management
+   APP_ENV=development
+   API_BASE_URL=http://localhost:3000/api/Itam
+   TOKEN_KEY=access_token
+   TOKEN_PREFIX=Bearer
+   ENABLE_LOG=true
+   API_TIMEOUT=30000
+   ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. **Run the Development Server:**
+   This command will automatically run the `set-env.js` script to generate `src/app/core/config/env.ts`, and then start the Angular CLI dev server.
+   ```bash
+   npm start
+   ```
+   *Navigate to `http://localhost:4200/`.* The application will automatically reload if you change any of the source files.
 
-```bash
-ng generate --help
-```
+4. **Production Build:**
+   ```bash
+   npm run build
+   ```
+   The build artifacts will be stored in the `dist/it-asset-management-frontend` directory.
 
-## Building
+---
 
-To build the project run:
+## 📐 Architecture Highlights
 
-```bash
-ng build
-```
+- **Dynamic Environment Variables:** We use `dotenv` combined with a pre-build script (`set-env.js`) to map OS-level variables to Angular's environment dynamically. This prevents hardcoding configurations.
+- **Service Layer Pattern:** API calls are abstracted away from components into the `core/services/` directory (e.g., `DashboardService`, `AuthService`). This keeps components focused on data binding and UI rendering.
+- **Token-Based Authentication:** Uses `StorageService` to securely handle JWT Access and Refresh tokens. Requests to backend APIs are automatically authenticated.
+- **Lazy Loading Strategy:** Feature pages are logically separated into distinct routing modules (e.g., `assetInformation.routes`, `vendorManagement.routes`) enabling chunking and optimized initial load times.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 👥 Authors
+- Pace CRM / Internal IT Team

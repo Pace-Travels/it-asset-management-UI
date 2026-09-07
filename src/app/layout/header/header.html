@@ -26,7 +26,9 @@
 
                 <i class="pi pi-bell"></i>
 
-                <span class="badge">3</span>
+                @if(notifications.length > 0) {
+                    <span class="badge">{{ notifications.length }}</span>
+                }
 
             </button>
 
@@ -40,23 +42,17 @@
 
                 </div>
 
-                <div class="notification-item">
-
-                    ✅ Asset Added Successfully
-
-                </div>
-
-                <div class="notification-item">
-
-                    👤 New User Created
-
-                </div>
-
-                <div class="notification-item">
-
-                    📦 Vendor Updated
-
-                </div>
+                @if(notifications.length === 0){
+                    <div class="notification-item">
+                        No new notifications
+                    </div>
+                }
+                
+                @for(notif of notifications; track notif.message) {
+                    <div class="notification-item">
+                        {{ notif.message }}
+                    </div>
+                }
 
             </div>
 
@@ -70,15 +66,15 @@
 
                 <div class="avatar">
 
-                    A
+                    {{ currentUser?.firstName ? currentUser.firstName.charAt(0).toUpperCase() : 'U' }}
 
                 </div>
 
                 <div class="profile-info">
 
-                    <strong>Admin</strong>
+                    <strong>{{ currentUser?.firstName || 'User' }} {{ currentUser?.lastName || '' }}</strong>
 
-                    <small>Administrator</small>
+                    <small>{{ currentUser?.role || 'Administrator' }}</small>
 
                 </div>
 
@@ -94,15 +90,15 @@
 
                     <div class="avatar large">
 
-                        A
+                        {{ currentUser?.firstName ? currentUser.firstName.charAt(0).toUpperCase() : 'U' }}
 
                     </div>
 
                     <div>
 
-                        <h4>Admin</h4>
+                        <h4>{{ currentUser?.firstName || 'User' }} {{ currentUser?.lastName || '' }}</h4>
 
-                        <p>admin@company.com</p>
+                        <p>{{ currentUser?.email || 'user@company.com' }}</p>
 
                     </div>
 

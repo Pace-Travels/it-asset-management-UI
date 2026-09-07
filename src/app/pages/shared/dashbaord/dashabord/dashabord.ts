@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
+import { DashboardService } from '../../../../core/services/dashboard.service';
 
 @Component({
   selector: 'app-dashabord',
@@ -9,211 +10,64 @@ import { ChartModule } from 'primeng/chart';
   templateUrl: './dashabord.html',
   styleUrl: './dashabord.scss',
 })
-export class Dashabord {
+export class Dashabord implements OnInit {
 
   constructor(
     private router: Router
   ) { }
 
+  private dashboardService = inject(DashboardService);
+
   viewAllAssets(): void {
-
     this.router.navigate(['/asset-info']);
-
   }
-  userName = 'Administrator';
-
+  
+  userName = 'User';
   today = new Date();
 
   cards = [
-
-    {
-      title: 'Total Assets',
-      value: 248,
-      icon: 'pi pi-box',
-      footer: '+12 this month',
-      iconClass: 'primary'
-    },
-
-    {
-      title: 'Assigned Assets',
-      value: 176,
-      icon: 'pi pi-desktop',
-      footer: '71% Utilized',
-      iconClass: 'success'
-    },
-
-    {
-      title: 'Available Assets',
-      value: 52,
-      icon: 'pi pi-check-circle',
-      footer: 'Ready to Assign',
-      iconClass: 'warning'
-    },
-
-    {
-      title: 'Under Repair',
-      value: 20,
-      icon: 'pi pi-wrench',
-      footer: 'Need Attention',
-      iconClass: 'danger'
-    }
-
+    { title: 'Total Assets', value: 0, icon: 'pi pi-box', footer: 'Total', iconClass: 'primary' },
+    { title: 'Assigned Assets', value: 0, icon: 'pi pi-desktop', footer: 'Assigned', iconClass: 'success' },
+    { title: 'Available Assets', value: 0, icon: 'pi pi-check-circle', footer: 'Ready', iconClass: 'warning' },
+    { title: 'Under Repair', value: 0, icon: 'pi pi-wrench', footer: 'Repair', iconClass: 'danger' }
   ];
 
   categoryData: any;
-
   chartOptions: any;
+  recentAssets: any[] = [];
+  warrantyAlerts: any[] = [];
+  recentActivities: any[] = [];
+  reminders: any[] = [];
 
   ngOnInit() {
-
-
-    this.categoryData = {
-
-      labels: ['Laptop', 'Desktop', 'Printer', 'Monitor'],
-
-      datasets: [{
-
-        label: 'Assets',
-
-        data: [120, 65, 28, 35],
-
-        backgroundColor: '#2563EB',
-
-        borderRadius: 8
-
-      }]
-
-    };
-
     this.chartOptions = {
-
       responsive: true,
-
       maintainAspectRatio: false,
-
       plugins: {
         legend: {
           position: 'bottom'
         }
       }
-
     };
 
+    this.dashboardService.getDashboardStats().subscribe({
+      next: (res: any) => {
+        if(res.success && res.data) {
+          const stats = res.data;
+          
+          this.cards[0].value = stats.cards.totalAssets;
+          this.cards[1].value = stats.cards.assignedAssets;
+          this.cards[2].value = stats.cards.availableAssets;
+          this.cards[3].value = stats.cards.underRepair;
+
+          this.categoryData = stats.categoryData;
+          this.recentAssets = stats.recentAssets;
+          this.warrantyAlerts = stats.warrantyAlerts;
+          this.recentActivities = stats.recentActivities;
+          this.reminders = stats.reminders;
+        }
+      },
+      error: (err: any) => console.error('Failed to load dashboard stats', err)
+    });
   }
-
-
-  recentAssets = [
-
-    {
-      assetCode: 'AST001',
-      assetName: 'Dell Latitude 5440',
-      category: 'Laptop',
-      status: 'Assigned'
-    },
-
-    {
-      assetCode: 'AST002',
-      assetName: 'HP ProBook 450',
-      category: 'Laptop',
-      status: 'Available'
-    },
-
-    {
-      assetCode: 'AST003',
-      assetName: 'Canon MF3010',
-      category: 'Printer',
-      status: 'Repair'
-    },
-
-    {
-      assetCode: 'AST004',
-      assetName: 'Dell Monitor 24"',
-      category: 'Monitor',
-      status: 'Assigned'
-    },
-
-    {
-      assetCode: 'AST005',
-      assetName: 'Lenovo ThinkCentre',
-      category: 'Desktop',
-      status: 'Available'
-    }
-
-  ];
-
-  warrantyAlerts = [
-
-    {
-      asset: 'Dell Latitude 5440',
-      daysLeft: 12
-    },
-
-    {
-      asset: 'HP ProBook 450',
-      daysLeft: 25
-    },
-
-    {
-      asset: 'Canon MF3010',
-      daysLeft: 30
-    }
-
-  ];
-
-  recentActivities = [
-
-    {
-      icon: 'pi pi-plus-circle',
-      title: 'New Asset Added',
-      description: 'Dell Latitude 5440',
-      time: '10 min ago'
-    },
-
-    {
-      icon: 'pi pi-user-plus',
-      title: 'Asset Assigned',
-      description: 'Assigned to Rahul Sharma',
-      time: '1 hour ago'
-    },
-
-    {
-      icon: 'pi pi-wrench',
-      title: 'Maintenance Updated',
-      description: 'HP ProDesk 600',
-      time: 'Today'
-    }
-
-  ];
-
-  reminders = [
-
-{
-  provider:'Jio Fiber',
-  due:'Recharge in 5 Days',
-  icon:'pi pi-wifi',
-  class:'danger'
-},
-
-{
-  provider:'Airtel Fiber',
-  due:'Recharge Tomorrow',
-  icon:'pi pi-wifi',
-  class:'warning'
-},
-
-{
-  provider:'ACT Broadband',
-  due:'Recharge in 12 Days',
-  icon:'pi pi-wifi',
-  class:'primary'
-},
-
-{
-  provider:'BSNL Fiber',
-  due:'Recharge in 20 Days',
-  icon:'pi pi-wifi',
-  class:'success'
-}
-
-];
 }
