@@ -3,13 +3,15 @@ import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { OnInit } from '@angular/core';
+import { StorageService } from '../../core/services/storage.service';
+import { MenuService } from '../../core/services/master/menu.service';
 
 interface MenuItem {
   id: string;
   label: string;
   icon: string;
   route?: string;
-  permission?: string;
+  permission?: any;
   expanded?: boolean;
   children?: MenuItem[];
 }
@@ -23,9 +25,21 @@ interface MenuItem {
 
 export class Sidebar implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private storageService: StorageService, private menuService: MenuService) { }
 
   ngOnInit(): void {
+
+    this.menuService.getSidebar().subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.menu = res.data;
+          this.setActiveRoute(this.router.url);
+        }
+      },
+      error: (err: any) => {
+        console.error('Failed to load sidebar', err);
+      }
+    });
 
     this.setActiveRoute(this.router.url);
 
@@ -89,35 +103,7 @@ export class Sidebar implements OnInit {
   @Input()
   collapsed: boolean = false;
 
-  menu: MenuItem[] = [
-
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: 'pi pi-home',
-      route: '/dashboard',
-      permission: 'DASHBOARD_VIEW'
-    },
-    {
-      id: 'masters', label: 'Masters', icon: 'pi pi-database', permission: 'MASTER_VIEW', expanded: false, children:
-        [
-
-          { id: 'asset-info-status', label: 'Asset Info Status', icon: 'pi pi-users', route: '/asset-info-status', permission: 'MASTER_USER' },
-          { id: 'department', label: 'Department', icon: 'pi pi-building', route: '/masters/departments', permission: 'MASTER_DEPARTMENT' },
-          { id: 'location', label: 'Location', icon: 'pi pi-map-marker', route: '/masters/location', permission: 'MASTER_LOCATION' },
-          { id: 'asset-type', label: 'Asset Type', icon: 'pi pi-box', route: '/masters/asset-type', permission: 'MASTER_ASSET_TYPE' },
-          { id: 'vendor', label: 'Vendor', icon: 'pi pi-briefcase', route: '/masters/vendor', permission: 'MASTER_VENDOR' },
-
-        ]
-    },
-    { id: 'adminUser', label: 'Admin User', icon: 'pi pi-user', route: '/adminUser', permission: 'REPORT_VIEW' },
-    { id: 'reports', label: 'Reports', icon: 'pi pi-chart-bar', route: '/reports', permission: 'REPORT_VIEW' },
-    { id: 'vendor', label: 'Vendors', icon: 'pi pi-chart-bar', route: '/vendor-management', permission: 'REPORT_VIEW' },
-    { id: 'employeedetails', label: 'Employee Details', icon: 'pi pi-chart-bar', route: '/employee-details', permission: 'REPORT_VIEW' },
-    { id: 'rolepermission', label: 'Role Permission', icon: 'pi pi-chart-bar', route: '/role-permission', permission: 'REPORT_VIEW' },
-    { id: 'settings', label: 'Settings', icon: 'pi pi-cog', route: '/settings', permission: 'SETTINGS_VIEW' }
-
-  ];
+  menu: MenuItem[] = [];
 
   toggle(item: MenuItem): void {
 

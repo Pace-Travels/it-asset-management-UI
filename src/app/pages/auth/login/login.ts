@@ -37,7 +37,8 @@ export class LoginComponent {
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      rememberMe: [false]
     });
   }
 
@@ -54,18 +55,18 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe({
+    this.authService.login(email, password, rememberMe).subscribe({
       next: (response: any) => {
         this.isLoading = false;
 
         if (response.success) {
           // Tokens & User Save in SessionStorage
           if (response.data) {
-            this.storageService.setAccessToken(response.data.accessToken);
-            this.storageService.setRefreshToken(response.data.refreshToken);
-            this.storageService.setUser(response.data.user);
+            this.storageService.setAccessToken(response.data.accessToken, rememberMe);
+            this.storageService.setRefreshToken(response.data.refreshToken, rememberMe);
+            this.storageService.setUser(response.data.user, rememberMe);
           }
 
           this.messageService.add({

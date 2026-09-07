@@ -65,7 +65,7 @@ export class AuthService {
 
   // }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string, rememberMe: boolean = false): Observable<any> {
 
     // =====================================================
     // DEMO LOGIN (TEMPORARY)
@@ -155,15 +155,15 @@ export class AuthService {
         tap((response) => {
   
             this.storageService.setAccessToken(
-                response.data.accessToken
+                response.data.accessToken, rememberMe
             );
   
             this.storageService.setRefreshToken(
-                response.data.refreshToken
+                response.data.refreshToken, rememberMe
             );
   
             this.storageService.setUser(
-                response.data.user
+                response.data.user, rememberMe
             );
   
             this.currentUserSubject.next(

@@ -154,6 +154,12 @@
 
         </small>
 
+        <!-- Remember Me -->
+        <div class="remember-me-group" style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 0.5rem; justify-content: flex-start;">
+          <input type="checkbox" id="rememberMe" formControlName="rememberMe" style="width: auto; cursor: pointer;">
+          <label for="rememberMe" style="margin: 0; font-size: 0.9rem; cursor: pointer; user-select: none;">Remember Me</label>
+        </div>
+
         <!-- Error -->
 
         <div class="login-error" *ngIf="errorMessage">
