@@ -48,7 +48,7 @@
 
                     }
 
-                    @if(item.children && !collapsed){
+                    @if(item.children && item.children.length > 0 && !collapsed){
 
                     <i class="pi" [class.pi-angle-down]="item.expanded" [class.pi-angle-right]="!item.expanded">
                     </i>
@@ -56,8 +56,10 @@
                     }
 
                 </a>
+
                 @if(!collapsed){
-                @if(item.children && item.expanded){
+
+                @if(item.children && item.children.length > 0 && item.expanded){
 
                 <ul class="sub-menu">
 
@@ -80,6 +82,7 @@
                 </ul>
 
                 }
+
                 }
 
             </li>

@@ -7,10 +7,13 @@ import { StorageService } from '../../core/services/storage.service';
 import { MenuService } from '../../core/services/master/menu.service';
 
 interface MenuItem {
-  id: string;
+  id: number;
+  parentId: number | null;
   label: string;
   icon: string;
-  route?: string;
+  route?: string | null;
+  level: number;
+  sortOrder: number;
   permission?: any;
   expanded?: boolean;
   children?: MenuItem[];
@@ -60,6 +63,8 @@ export class Sidebar implements OnInit {
       menu.expanded = false;
     });
 
+    this.activeMenu = null;
+
     this.menu.forEach(parent => {
 
       // Parent Route
@@ -70,7 +75,7 @@ export class Sidebar implements OnInit {
       }
 
       // Child Route
-      if (parent.children) {
+      if (parent.children && parent.children.length > 0) {
 
         const child = parent.children.find(c =>
           c.route && route.startsWith(c.route)
@@ -94,9 +99,11 @@ export class Sidebar implements OnInit {
     if (this.activeMenu === item.id) {
       return true;
     }
-    if (item.children) {
+
+    if (item.children && item.children.length > 0) {
       return item.children.some(child => child.id === this.activeMenu);
     }
+
     return false;
   }
 
@@ -107,7 +114,7 @@ export class Sidebar implements OnInit {
 
   toggle(item: MenuItem): void {
 
-    if (item.children) {
+    if (item.children && item.children.length > 0) {
 
       item.expanded = !item.expanded;
 
@@ -115,32 +122,34 @@ export class Sidebar implements OnInit {
 
   }
 
-  activeMenu = 'dashboard';
+  activeMenu: number | null = 1;
 
-  setActive(menu: string) {
+  setActive(menu: number) {
     this.activeMenu = menu;
   }
 
   onMenuClick(item: MenuItem): void {
     this.setActive(item.id);
-    if (item.children) {
+
+    if (item.children && item.children.length > 0) {
 
       // Pehle sab close
       this.menu.forEach(menu => {
 
-        if (menu.children) {
+        if (menu.children && menu !== item) {
           menu.expanded = false;
         }
 
       });
 
       // Sirf current open
-      item.expanded = true;
+      item.expanded = !item.expanded;
 
       this.setActive(item.id);
 
       return;
     }
+
     if (item.route) {
       this.router.navigate([item.route]);
     }
@@ -148,6 +157,7 @@ export class Sidebar implements OnInit {
 
   onChildMenuClick(child: MenuItem): void {
     this.setActive(child.id);
+
     if (child.route) {
       this.router.navigate([child.route]);
     }
