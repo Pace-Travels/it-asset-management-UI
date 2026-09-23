@@ -1,19 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  signal
+} from '@angular/core';
+import {
+  NavigationEnd,
+  Router,
+  RouterModule
+} from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
+
 import { StorageService } from '../../core/services/storage.service';
 import { MenuService } from '../../core/services/master/menu.service';
 
 interface MenuItem {
   id: number;
-  parentId: number | null;
   label: string;
   icon: string;
-  route?: string | null;
-  level: number;
-  sortOrder: number;
+  route?: string;
   permission?: any;
   expanded?: boolean;
   children?: MenuItem[];
@@ -21,146 +28,340 @@ interface MenuItem {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss',
+  styleUrl: './sidebar.scss'
 })
+export class Sidebar implements OnInit, OnDestroy {
 
-export class Sidebar implements OnInit {
+  @Input() collapsed = false;
 
-  constructor(private router: Router, private storageService: StorageService, private menuService: MenuService) { }
+  // ==========================================
+  // Signals
+  // ==========================================
+
+  menu = signal<MenuItem[]>([]);
+
+  activeMenu = signal<number | null>(null);
+
+  loading = signal(false);
+
+  // ==========================================
+  // Destroy Subject
+  // ==========================================
+
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private menuService: MenuService
+  ) { }
+
+  // ==========================================
+  // Init
+  // ==========================================
 
   ngOnInit(): void {
 
-    this.menuService.getSidebar().subscribe({
-      next: (res: any) => {
-        if (res && res.data) {
-          this.menu = res.data;
-          this.setActiveRoute(this.router.url);
-        }
-      },
-      error: (err: any) => {
-        console.error('Failed to load sidebar', err);
-      }
-    });
-
-    this.setActiveRoute(this.router.url);
+    this.loadSidebar();
 
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
+      .pipe(
+        filter(
+          (event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(event => {
 
-        this.setActiveRoute(event.urlAfterRedirects);
+        this.setActiveRoute(
+          event.urlAfterRedirects
+        );
 
       });
 
   }
+
+  // ==========================================
+  // Load Sidebar
+  // ==========================================
+
+  private loadSidebar(): void {
+
+    this.loading.set(true);
+
+    this.menuService.getSidebar()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+
+        next: (res: any) => {
+
+          console.log(
+            'Sidebar API Response:',
+            res
+          );
+
+          if (res?.success && Array.isArray(res.data)) {
+
+            this.menu.set(res.data);
+
+            this.setActiveRoute(
+              this.router.url
+            );
+
+          } else {
+
+            this.menu.set([]);
+
+          }
+
+          this.loading.set(false);
+
+        },
+
+        error: (err: any) => {
+
+          console.error(
+            'Failed to load sidebar:',
+            err
+          );
+
+          this.menu.set([]);
+
+          this.loading.set(false);
+
+        }
+
+      });
+
+  }
+
+  // ==========================================
+  // Active Route
+  // ==========================================
 
   private setActiveRoute(route: string): void {
 
-    // Sab parents close
-    this.menu.forEach(menu => {
-      menu.expanded = false;
-    });
+    const currentMenu = this.menu();
 
-    this.activeMenu = null;
+    if (!currentMenu.length) {
+      return;
+    }
 
-    this.menu.forEach(parent => {
+    let activeId: number | null = null;
 
-      // Parent Route
-      if (parent.route && route.startsWith(parent.route)) {
+    const updatedMenu = currentMenu.map(parent => {
 
-        this.activeMenu = parent.id;
+      let expanded = false;
+
+      // --------------------------------------
+      // Parent route
+      // --------------------------------------
+
+      if (
+        parent.route &&
+        parent.route !== '/' &&
+        route.startsWith(parent.route)
+      ) {
+
+        activeId = parent.id;
 
       }
 
-      // Child Route
-      if (parent.children && parent.children.length > 0) {
+      // --------------------------------------
+      // Child route
+      // --------------------------------------
 
-        const child = parent.children.find(c =>
-          c.route && route.startsWith(c.route)
-        );
+      const updatedChildren = parent.children?.map(child => {
 
-        if (child) {
+        if (
+          child.route &&
+          child.route !== '/' &&
+          route.startsWith(child.route)
+        ) {
 
-          this.activeMenu = child.id;
-
-          parent.expanded = true;
+          activeId = child.id;
+          expanded = true;
 
         }
 
-      }
-
-    });
-
-  }
-
-  isParentActive(item: MenuItem): boolean {
-    if (this.activeMenu === item.id) {
-      return true;
-    }
-
-    if (item.children && item.children.length > 0) {
-      return item.children.some(child => child.id === this.activeMenu);
-    }
-
-    return false;
-  }
-
-  @Input()
-  collapsed: boolean = false;
-
-  menu: MenuItem[] = [];
-
-  toggle(item: MenuItem): void {
-
-    if (item.children && item.children.length > 0) {
-
-      item.expanded = !item.expanded;
-
-    }
-
-  }
-
-  activeMenu: number | null = 1;
-
-  setActive(menu: number) {
-    this.activeMenu = menu;
-  }
-
-  onMenuClick(item: MenuItem): void {
-    this.setActive(item.id);
-
-    if (item.children && item.children.length > 0) {
-
-      // Pehle sab close
-      this.menu.forEach(menu => {
-
-        if (menu.children && menu !== item) {
-          menu.expanded = false;
-        }
+        return child;
 
       });
 
-      // Sirf current open
-      item.expanded = !item.expanded;
+      return {
+        ...parent,
+        expanded,
+        children: updatedChildren
+      };
 
-      this.setActive(item.id);
+    });
+
+    this.menu.set(updatedMenu);
+
+    if (activeId !== null) {
+
+      this.activeMenu.set(activeId);
+
+    }
+
+  }
+
+  // ==========================================
+  // Check Parent Active
+  // ==========================================
+
+  isParentActive(item: MenuItem): boolean {
+
+    const activeId = this.activeMenu();
+
+    if (activeId === item.id) {
+      return true;
+    }
+
+    if (item.children) {
+
+      return item.children.some(
+        child => child.id === activeId
+      );
+
+    }
+
+    return false;
+
+  }
+
+  // ==========================================
+  // Parent Menu Click
+  // ==========================================
+
+  onMenuClick(item: MenuItem): void {
+
+    this.activeMenu.set(item.id);
+
+    // --------------------------------------
+    // Parent with children
+    // --------------------------------------
+
+    if (item.children?.length) {
+
+      const updatedMenu = this.menu().map(menuItem => {
+
+        if (menuItem.id === item.id) {
+
+          return {
+            ...menuItem,
+            expanded: !menuItem.expanded
+          };
+
+        }
+
+        if (menuItem.children?.length) {
+
+          return {
+            ...menuItem,
+            expanded: false
+          };
+
+        }
+
+        return menuItem;
+
+      });
+
+      this.menu.set(updatedMenu);
 
       return;
     }
 
+    // --------------------------------------
+    // Normal route
+    // --------------------------------------
+
     if (item.route) {
-      this.router.navigate([item.route]);
+
+      this.router.navigateByUrl(
+        item.route
+      );
+
     }
+
   }
 
+  // ==========================================
+  // Child Menu Click
+  // ==========================================
+
   onChildMenuClick(child: MenuItem): void {
-    this.setActive(child.id);
+
+    this.activeMenu.set(child.id);
 
     if (child.route) {
-      this.router.navigate([child.route]);
+
+      this.router.navigateByUrl(
+        child.route
+      );
+
     }
+
+  }
+
+  // ==========================================
+  // Manual Active Menu
+  // ==========================================
+
+  setActive(menuId: number): void {
+
+    this.activeMenu.set(menuId);
+
+  }
+
+  // ==========================================
+  // Toggle
+  // ==========================================
+
+  toggle(item: MenuItem): void {
+
+    if (!item.children?.length) {
+      return;
+    }
+
+    const updatedMenu = this.menu().map(menuItem => {
+
+      if (menuItem.id === item.id) {
+
+        return {
+          ...menuItem,
+          expanded: !menuItem.expanded
+        };
+
+      }
+
+      return menuItem;
+
+    });
+
+    this.menu.set(updatedMenu);
+
+  }
+
+  // ==========================================
+  // Destroy
+  // ==========================================
+
+  ngOnDestroy(): void {
+
+    this.destroy$.next();
+    this.destroy$.complete();
+
   }
 
 }

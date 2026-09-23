@@ -1,6 +1,8 @@
 <aside class="sidebar" [class.collapsed]="collapsed">
 
-    <!-- Logo -->
+    <!-- ==========================================
+         Logo
+    =========================================== -->
 
     <div class="sidebar-header">
 
@@ -10,7 +12,7 @@
 
         </div>
 
-        @if(!collapsed){
+        @if (!collapsed) {
 
         <div class="company">
 
@@ -24,50 +26,72 @@
 
     </div>
 
-    <!-- Menu -->
+
+    <!-- ==========================================
+         Menu
+    =========================================== -->
 
     <div class="sidebar-body">
 
         <ul class="nav-menu">
 
-            @for(item of menu; track item.label){
+            @for (
+            item of menu();
+            track item.id
+            ) {
 
             <li class="nav-item">
+
+                <!-- Parent Menu -->
 
                 <a class="nav-link" [class.active]="isParentActive(item)" (click)="onMenuClick(item)">
 
                     <i [class]="item.icon"></i>
 
-                    @if(!collapsed){
+
+                    @if (!collapsed) {
 
                     <span>
-
-                        {{item.label}}
-
+                        {{ item.label }}
                     </span>
 
                     }
 
-                    @if(item.children && item.children.length > 0 && !collapsed){
 
-                    <i class="pi" [class.pi-angle-down]="item.expanded" [class.pi-angle-right]="!item.expanded">
-                    </i>
+                    @if (
+                    item.children?.length &&
+                    !collapsed
+                    ) {
+
+                    <i class="pi" [class.pi-angle-down]="item.expanded" [class.pi-angle-right]="!item.expanded"></i>
 
                     }
 
                 </a>
 
-                @if(!collapsed){
 
-                @if(item.children && item.children.length > 0 && item.expanded){
+                <!-- ==================================
+                         Child Menu
+                    =================================== -->
+
+                @if (
+                !collapsed &&
+                item.children?.length &&
+                item.expanded
+                ) {
 
                 <ul class="sub-menu">
 
-                    @for(child of item.children; track child.id){
+                    @for (
+                    child of item.children;
+                    track child.id
+                    ) {
 
                     <li>
 
-                        <a class="sub-link" [class.active]="activeMenu === child.id" (click)="onChildMenuClick(child)">
+                        <a class="sub-link" [class.active]="
+                                            activeMenu() === child.id
+                                        " (click)="onChildMenuClick(child)">
 
                             <i [class]="child.icon"></i>
 
@@ -80,8 +104,6 @@
                     }
 
                 </ul>
-
-                }
 
                 }
 

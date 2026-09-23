@@ -3,6 +3,7 @@ import { Component, EventEmitter, inject, Output, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth-service';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ export class Header implements OnInit {
   private authService = inject(AuthService);
   private dashboardService = inject(DashboardService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   notificationOpen = false;
   profileOpen = false;
@@ -26,12 +28,14 @@ export class Header implements OnInit {
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      this.cdr.markForCheck();
     });
 
     this.dashboardService.getNotifications().subscribe({
       next: (res: any) => {
         if(res.success && res.data) {
           this.notifications = res.data;
+          this.cdr.markForCheck();
         }
       },
       error: (err: any) => console.error('Failed to load notifications', err)
