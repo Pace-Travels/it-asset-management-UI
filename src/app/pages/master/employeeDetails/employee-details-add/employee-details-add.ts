@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
 import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 import { EmployeeDetailsService } from '../../../../core/services/master/employee-details.service';
+import { Department } from '../../../../core/services/master/department';
 
 @Component({
   selector: 'app-employee-details-add',
@@ -24,6 +25,7 @@ export class EmployeeDetailsAdd implements OnInit {
   constructor(
     private fb: FormBuilder,
     private employeeDetailsService: EmployeeDetailsService,
+    private departmentService: Department,
     private router: Router,
     private messageService: MessageService
   ) { }
@@ -38,6 +40,19 @@ export class EmployeeDetailsAdd implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       mobileNumber: ['', Validators.required],
       isActive: [true, Validators.required]
+    });
+
+    this.getDepartments();
+  }
+
+  getDepartments(): void {
+    this.departmentService.fetchAll().subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.departments = res.data;
+        }
+      },
+      error: (error) => console.error(error)
     });
   }
 

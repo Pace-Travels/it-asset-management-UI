@@ -6,6 +6,10 @@ import { MessageService } from 'primeng/api';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
 import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 import { SubscriptionService } from '../../../../core/services/master/subscription.service';
+import { VendorManagmentService } from '../../../../core/services/master/vendor-managment.service';
+import { SubscriptionPaymentMethod } from '../../../../core/services/master/subscription-payment-method';
+import { SubscriptionReminderType } from '../../../../core/services/master/subscription-reminder-type';
+import { EmployeeDetailsService } from '../../../../core/services/master/employee-details.service';
 
 @Component({
   selector: 'app-subscription-add',
@@ -28,6 +32,10 @@ export class SubscriptionAdd implements OnInit {
   constructor(
     private fb: FormBuilder,
     private subscriptionService: SubscriptionService,
+    private vendorService: VendorManagmentService,
+    private paymentMethodService: SubscriptionPaymentMethod,
+    private reminderTypeService: SubscriptionReminderType,
+    private employeeService: EmployeeDetailsService,
     private router: Router,
     private messageService: MessageService
   ) { }
@@ -47,7 +55,16 @@ export class SubscriptionAdd implements OnInit {
       paymentDate: ['', Validators.required],
       isActive: [true, Validators.required]
     });
+
+    // this.dgetDropdownData();
   }
+
+  // getDropdownData(): void {
+  //   this.vendorService.fetchAll().subscribe({ next: (res: any) => { if (res.success) this.vendors = res.data; } });
+  //   this.paymentMethodService.fetchAll().subscribe({ next: (res: any) => { if (res.success) this.paymentMethods = res.data; } });
+  //   this.reminderTypeService.fetchAll().subscribe({ next: (res: any) => { if (res.success) this.reminderTypes = res.data; } });
+  //   this.employeeService.fetchAll().subscribe({ next: (res: any) => { if (res.success) this.employees = res.data; } });
+  // }
 
   save(): void {
     this.submitted = true;

@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
 import { EmployeeAssetAllocationService } from '../../../../core/services/master/employee-asset-allocation.service';
+import { EmployeeDetailsService } from '../../../../core/services/master/employee-details.service';
+import { AssetInformationService } from '../../../../core/services/master/asset-information.service';
 
 @Component({
   selector: 'app-employee-asset-allocation-edit',
@@ -27,8 +29,8 @@ export class EmployeeAssetAllocationEdit implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private allocationService: EmployeeAssetAllocationService,
-    // private employeeService: EmployeeDetailsService,
-    // private assetService: AssetInformationService,
+    private employeeService: EmployeeDetailsService,
+    private assetService: AssetInformationService,
     private messageService: MessageService
   ) { }
 
@@ -58,13 +60,13 @@ export class EmployeeAssetAllocationEdit implements OnInit {
   }
 
   getDropdownData(): void {
-    // this.employeeService.getDropdownList().subscribe({
-    //   next: (res) => { if (res.success) this.employeeList = res.data; }
-    // });
+    this.employeeService.fetchAll().subscribe({
+      next: (res: any) => { if (res.success) this.employeeList = res.data; }
+    });
 
-    // this.assetService.getDropdownList().subscribe({
-    //   next: (res) => { if (res.success) this.assetList = res.data; }
-    // });
+    this.assetService.fetchAll().subscribe({
+      next: (res: any) => { if (res.success) this.assetList = res.data; }
+    });
   }
 
   getAllocationById(id: number): void {

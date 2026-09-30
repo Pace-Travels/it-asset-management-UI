@@ -117,12 +117,12 @@
 
                 <select formControlName="userRoleId">
 
-                    <option value="">
-
+                    <option [ngValue]="null">
                         Select User Role
-
                     </option>
-
+                    <option *ngFor="let role of userRoles" [value]="role.id">
+                        {{ role.name }}
+                    </option>
                 </select>
 
                 <app-validation-message [control]="adminForm.controls['userRoleId']" label="User Role">
@@ -142,12 +142,12 @@
 
                 <select formControlName="userTypeId">
 
-                    <option value="">
-
+                    <option [ngValue]="null">
                         Select User Type
-
                     </option>
-
+                    <option *ngFor="let type of userTypes" [value]="type.id">
+                        {{ type.name }}
+                    </option>
                 </select>
 
                 <app-validation-message [control]="adminForm.controls['userTypeId']" label="User Type">
@@ -167,12 +167,12 @@
 
                 <select formControlName="departmentId">
 
-                    <option value="">
-
+                    <option [ngValue]="null">
                         Select Department
-
                     </option>
-
+                    <option *ngFor="let department of departments" [value]="department.id">
+                        {{ department.name }}
+                    </option>
                 </select>
 
                 <app-validation-message [control]="adminForm.controls['departmentId']" label="Department">
@@ -192,12 +192,12 @@
 
                 <select formControlName="adminStatusId">
 
-                    <option value="">
-
+                    <option [ngValue]="null">
                         Select Admin Status
-
                     </option>
-
+                    <option *ngFor="let status of adminStatuses" [value]="status.id">
+                        {{ status.name }}
+                    </option>
                 </select>
 
                 <app-validation-message [control]="adminForm.controls['adminStatusId']" label="Admin Status">

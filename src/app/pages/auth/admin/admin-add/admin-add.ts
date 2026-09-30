@@ -6,7 +6,7 @@ import { AdminService } from '../../../../core/services/auths/admin.service';
 import { CommonModule, Location } from '@angular/common';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
 import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
-import { UserRoleStatusEditService } from '../../../../core/services/master/user-role-status-edit.service';
+import { UserRoleService } from '../../../../core/services/master/user-role.service';
 import { Department } from '../../../../core/services/master/department';
 import { AdminStatusService } from '../../../../core/services/master/admin-status.service';
 import { UserTypeService } from '../../../../core/services/master/user-type.service';
@@ -27,7 +27,7 @@ export class AdminAdd {
     private adminService: AdminService,
     private router: Router,
     private messageService: MessageService,
-    private userRoleStatusService: UserRoleStatusEditService,
+    private userRoleService: UserRoleService,
     private departmentService: Department,
     private adminStatusService: AdminStatusService,
     private userTypeServie: UserTypeService
@@ -217,13 +217,13 @@ export class AdminAdd {
 
   getUserRoles(): void {
 
-    this.userRoleStatusService.fetchAll().subscribe({
+    this.userRoleService.fetchAll().subscribe({
 
       next: (response: any) => {
 
         if (response.success) {
 
-          this.userTypes = response.data;
+          this.userRoles = response.data;
 
         }
 

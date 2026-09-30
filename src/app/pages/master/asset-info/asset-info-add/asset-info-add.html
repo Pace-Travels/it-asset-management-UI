@@ -54,14 +54,13 @@
 
                     </label>
 
-                    <select formControlName="category">
-
-                        <option value="">
-
+                    <select formControlName="categoryId">
+                        <option [ngValue]="null">
                             Select Category
-
                         </option>
-
+                        <option *ngFor="let cat of categories" [value]="cat.id">
+                            {{ cat.name }}
+                        </option>
                     </select>
 
                 </div>
@@ -138,26 +137,13 @@
 
                     </label>
 
-                    <select formControlName="status">
-
-                        <option>
-
-                            Active
-
+                    <select formControlName="statusId">
+                        <option [ngValue]="null">
+                            Select Status
                         </option>
-
-                        <option>
-
-                            Repair
-
+                        <option *ngFor="let status of statuses" [value]="status.id">
+                            {{ status.name }}
                         </option>
-
-                        <option>
-
-                            Scrap
-
-                        </option>
-
                     </select>
 
                 </div>
@@ -184,14 +170,13 @@
 
                     </label>
 
-                    <select formControlName="vendor">
-
-                        <option value="">
-
+                    <select formControlName="vendorId">
+                        <option [ngValue]="null">
                             Select Vendor
-
                         </option>
-
+                        <option *ngFor="let vendor of vendors" [value]="vendor.id">
+                            {{ vendor.vendorName }}
+                        </option>
                     </select>
 
                 </div>
